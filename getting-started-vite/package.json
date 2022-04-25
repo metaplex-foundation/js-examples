@@ -1,0 +1,25 @@
+{
+  "name": "getting-started-vite",
+  "private": true,
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@metaplex-foundation/js-next": "^0.7.1",
+    "@solana/web3.js": "^1.39.1",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0"
+  },
+  "devDependencies": {
+    "@esbuild-plugins/node-globals-polyfill": "^0.1.1",
+    "@types/react": "^18.0.0",
+    "@types/react-dom": "^18.0.0",
+    "@vitejs/plugin-react": "^1.3.0",
+    "crypto-browserify": "^3.12.0",
+    "rollup-plugin-node-polyfills": "^0.2.1",
+    "vite": "^2.9.5"
+  }
+}
