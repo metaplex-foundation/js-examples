@@ -1,38 +1,82 @@
 .App {
   text-align: center;
+  display: flex;
+  width: 100vw;
+  height: 100vh;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.container {
+  margin: auto;
+  width: 100%;
+  max-width: 500px;
+  padding: 2rem;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.title {
+  text-align: left;
+  font-size: 12px;
+  font-weight: 500;
+  color: #0f172a;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.nftForm {
+  display: flex;
+
+}
+
+.nftForm input {
+  flex: 1;
+  padding: 1rem;
+  margin: 0;
+  margin-right: -1.5px;
+  border: 1.5px solid #0f172a;
+}
+
+.nftForm input:hover {
+  border-color: #4f46e5;
+  z-index: 1;
+}
+
+.nftForm input:focus {
+  outline: none;
+  border-color: #4f46e5;
+  z-index: 1;
+}
+
+.nftForm button {
+  background: white;
+  padding: 1rem;
+  margin: 0;
+  border: 1.5px solid #0f172a;
+  color: #0f172a;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.nftForm button:hover {
+  border-color: #4f46e5;
+  color: #4f46e5;
+}
+
+.nftPreview {
+  margin-top: 4rem;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.nftPreview h1 {
+  font-size: 20px;
+  font-weight: 500;
+  color: #0f172a;
+  border: 1.5px solid #0f172a;
+  background-color: white;
+  padding: 0.5rem 1rem;
+  position: relative;
+  margin-bottom: -22px;
+  transform: rotate(-5deg);
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.nftPreview img {
+  max-width: 100%;
 }
