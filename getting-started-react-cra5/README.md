@@ -1,70 +1,148 @@
-# Getting Started with Create React App
+# Getting Started with Metaplex and CRA 5
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This example sets up a new React app with Metaplex using "Create React App" (CRA) version 5 — i.e. using Webpack 5.
 
-## Available Scripts
+This example has been generated using the following steps:
 
-In the project directory, you can run:
+1. **Create a new project using the "Create React App" command.**
 
-### `npm start`
+    ```sh
+    npx create-react-app getting-started-react-cra5
+    cd getting-started-react-cra5
+    ```
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+2. **Install the Metaplex and the Solana SDKs.**
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+    ```sh
+    npm install @metaplex-foundation/js-next @solana/web3.js
+    ```
 
-### `npm test`
+3. **Install some polyfills.**
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+    <details>
+      <summary>Why?</summary>
+      Some dependencies of the Metaplex SDK are still relying on NPM packages that are not available in the browser. To make sure that the Metaplex SDK works in the browser, we need to install some polyfills.
+    </details>
 
-### `npm run build`
+    ```sh
+    npm install assert util crypto-browserify stream-browserify
+    ```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+4. **Install and use `react-app-rewired`**.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+    This enables us to override some Webpack configurations in the next step.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+    ```sh
+    # Installs react-app-rewired.
+    npm install react-app-rewired
 
-### `npm run eject`
+    # Replaces "react-scripts" with "react-app-rewired" in package.json scripts.
+    sed -i '' 's/react-scripts /react-app-rewired /g' package.json
+    ```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+5. **Override Webpack 5 configurations.**
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+    Create a new file to override Webpack 5 configurations.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+    ```sh
+    touch config-overrides.js
+    ```
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+    Copy the following code inside the new `config-overrides.js` file.
 
-## Learn More
+    <details>
+      <summary>Why?</summary>
+      These overriden configurations achieve a few different things:
+      - They stop Webpack from complaining about ESM paths that are not fully specificied, i.e. importing from `./directory` instead of `./directory/index.js`.
+      - They stop Webpack from raising hundreds of circular dependency warnings which are present in many libraries.
+      - Last but not least they polyfill anything that is missing in the browser.
+    </details>
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+    ```js
+    const webpack = require('webpack');
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+    module.exports = function override(webpackConfig) {
+      // Disable resolving ESM paths as fully specified.
+      // See: https://github.com/webpack/webpack/issues/11467#issuecomment-691873586
+      webpackConfig.module.rules.push({
+        test: /\.m?js/,
+        resolve: {
+          fullySpecified: false,
+        },
+      });
 
-### Code Splitting
+      // Ignore source map warnings from node_modules.
+      // See: https://github.com/facebook/create-react-app/pull/11752
+      webpackConfig.ignoreWarnings = [/Failed to parse source map/];
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+      // Polyfill Buffer.
+      webpackConfig.plugins.push(
+        new webpack.ProvidePlugin({ Buffer: ['buffer', 'Buffer'] }),
+      );
 
-### Analyzing the Bundle Size
+      // Polyfill other modules.
+      webpackConfig.resolve.fallback = {
+        crypto: require.resolve("crypto-browserify"),
+        stream: require.resolve("stream-browserify"),
+        util: require.resolve("util"),
+        assert: require.resolve("assert"),
+        fs: false,
+        process: false,
+        path: false,
+        zlib: false,
+      };
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+      return webpackConfig;
+    };
+    ```
 
-### Making a Progressive Web App
+6. **Update your browser requirements.**
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+    Update the `browserslist` object of your `package.json` to include the following production requirements.
 
-### Advanced Configuration
+    <details>
+      <summary>Why?</summary>
+      If we skip this step, building and serving your app for production will give us the following error in the console.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+      ```
+      Uncaught TypeError: Cannot convert a BigInt value to a number
+      ```
 
-### Deployment
+      This is because Webpack will try to change the code of the deprecated nested dependency `noble-ed25519` to make sure it works on browsers that don't support `BigInt`. However, [all modern browsers support `BigInt`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/BigInt#browser_compatibility) so we can fix this by updating the `browserslist` object in our `package.json`.
+    </details>
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+    ```diff
+    "browserslist": {
+      "production": [
+    -     ">0.2%",
+    -     "not dead",
+    -     "not op_mini all"
+    +     "chrome >= 67",
+    +     "edge >= 79",
+    +     "firefox >= 68",
+    +     "opera >= 54",
+    +     "safari >= 14"
+      ],
+        "development": [
+        "last 1 chrome version",
+        "last 1 firefox version",
+        "last 1 safari version"
+      ]
+    },
+    ```
 
-### `npm run build` fails to minify
+7. **That's it!** 🎉
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+    You're now ready to start building your app. You can use the following commands to build and serve your app.
+
+    ```sh
+    # Build and serve for development.
+    npm start
+
+    # Build and serve for production.
+    npm run build && serve -s build
+    ```
+
+    If you're interested in how this example app is using the Metaplex SDK, check out the [`App.js`](./src/App.js) and [`App.css`](./src/App.css) file in the `src` directory.
+
+*Looking for the README file autogenerated by "Create React App"? [It's been moved here](./GENERATED-README.md).*
