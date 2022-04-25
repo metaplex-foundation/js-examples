@@ -7,6 +7,7 @@ However, note that the same steps can be followed to create a web app using othe
 This example has been generated using the following steps:
 
 1. **Create a new project using Vite.**
+
     In order to install a different framework than React, simply replace the `--template` option with the framework of your choice, e.g. `--template vue`. Check out the [Vite documentation](https://vitejs.dev/guide/#scaffolding-your-first-vite-project) for more information on the available templates.
 
     ```sh
