@@ -1,6 +1,6 @@
 # Getting Started with Metaplex and CRA 4
 
-This example sets up a new React app with Metaplex using "Create React App" (CRA) version 4 — i.e. using Webpack 4. Note that, if you're starting a new project, we recommend using CRA 5 which uses Webpack 5.
+This example sets up a new React app with Metaplex using "Create React App" (CRA) version 4 — i.e. using Webpack 4. Note that, if you're starting a new project, [we recommend using CRA 5](../getting-started-react-cra5) which uses Webpack 5.
 
 This example has been generated using the following steps:
 
