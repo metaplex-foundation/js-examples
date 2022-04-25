@@ -53,8 +53,11 @@ This example has been generated using the following steps:
     <details>
       <summary>Why?</summary>
       These overriden configurations achieve a few different things:
+
       - They stop Webpack from complaining about ESM paths that are not fully specificied, i.e. importing from `./directory` instead of `./directory/index.js`.
+
       - They stop Webpack from raising hundreds of circular dependency warnings which are present in many libraries.
+
       - Last but not least they polyfill anything that is missing in the browser.
     </details>
 
