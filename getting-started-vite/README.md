@@ -30,7 +30,7 @@ This example has been generated using the following steps:
     </details>
 
     ```sh
-    npm install -D crypto-browserify @esbuild-plugins/node-globals-polyfill rollup-plugin-node-polyfills
+    npm install -D assert util crypto-browserify @esbuild-plugins/node-globals-polyfill rollup-plugin-node-polyfills
     ```
 
 4. **Update your Vite configurations**.
@@ -56,9 +56,10 @@ This example has been generated using the following steps:
       resolve: {
         alias: {
           stream: 'rollup-plugin-node-polyfills/polyfills/stream',
-          crypto: 'crypto-browserify',
-          util: 'rollup-plugin-node-polyfills/polyfills/util',
           events: 'rollup-plugin-node-polyfills/polyfills/events',
+          assert: 'assert',
+          crypto: 'crypto-browserify',
+          util: 'util',
         },
       },
       define: {
