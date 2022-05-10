@@ -7,7 +7,9 @@ const connection = new Connection(clusterApiUrl("devnet"));
 const mx = Metaplex.make(connection);
 
 function App() {
-  const [address, setAddress] = useState('3ijFZcJKmp1EnDbbuaumWYvEFbztx9NRupwTXTchK9bP');
+  const [address, setAddress] = useState(
+    "3ijFZcJKmp1EnDbbuaumWYvEFbztx9NRupwTXTchK9bP"
+  );
   const [nft, setNft] = useState(null);
   const fetchNft = async () => {
     const nft = await mx.nfts().findNftByMint(new PublicKey(address));
@@ -26,10 +28,15 @@ function App() {
           />
           <button onClick={fetchNft}>Fetch</button>
         </div>
-        {nft && <div className="nftPreview">
-          <h1>{nft.name}</h1>
-          <img src={nft.metadata.image} alt="The downloaded illustration of the provided NFT address." />
-        </div>}
+        {nft && (
+          <div className="nftPreview">
+            <h1>{nft.name}</h1>
+            <img
+              src={nft.metadata.image}
+              alt="The downloaded illustration of the provided NFT address."
+            />
+          </div>
+        )}
       </div>
     </div>
   );
