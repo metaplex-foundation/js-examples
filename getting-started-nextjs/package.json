@@ -9,7 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@metaplex-foundation/js-next": "^0.8.2",
+    "@metaplex-foundation/js-next": "^0.8.3",
     "@solana/web3.js": "^1.41.4",
     "next": "12.1.6",
     "react": "18.1.0",

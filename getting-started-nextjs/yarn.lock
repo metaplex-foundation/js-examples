@@ -1345,10 +1345,10 @@
   resolved "https://registry.yarnpkg.com/@metaplex-foundation/cusper/-/cusper-0.0.2.tgz#dc2032a452d6c269e25f016aa4dd63600e2af975"
   integrity sha512-S9RulC2fFCFOQraz61bij+5YCHhSO9llJegK8c8Y6731fSi6snUSQJdCUqYS8AIgR0TKbQvdvgSyIIdbDFZbBA==
 
-"@metaplex-foundation/js-next@^0.8.2":
-  version "0.8.2"
-  resolved "https://registry.yarnpkg.com/@metaplex-foundation/js-next/-/js-next-0.8.2.tgz#5cd7d875987b05c47d0e445f6350c193a086ff49"
-  integrity sha512-cUmF2ry5JXOBrOBW+4kTHvxBIn/d1DxP+AhxDbKefy/Ul9xs3iIB0aQ5zoJaDkXjUuGaZRx6lqGFN8tHQgIfVA==
+"@metaplex-foundation/js-next@^0.8.3":
+  version "0.8.3"
+  resolved "https://registry.yarnpkg.com/@metaplex-foundation/js-next/-/js-next-0.8.3.tgz#a8943f01259a0a91c3450c53b38d52a2ea57b339"
+  integrity sha512-vaR2EkdVlUNh4WhQQcGaKx+wCOVcw9fmCK4s+fp3hrKDKI9mA9j1NDYYGuUwdoJgRPdbZ0JP7/MKxG+xDk9ilg==
   dependencies:
     "@aws-sdk/client-s3" "^3.54.1"
     "@bundlr-network/client" "^0.7.3"
