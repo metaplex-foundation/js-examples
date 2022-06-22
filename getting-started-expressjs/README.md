@@ -4,11 +4,21 @@ This example sets up a new express app with Metaplex.
 The Express.js app works with only one route that accepts a mint address in the request and returns the NFT object from the SDK as the response.
 
 It requires [Node.js](https://nodejs.org/) to run.
-1. Clone the example
+1. **Create a new Node project**
 
-2. Navigate to repo location
+   ```sh
+    mkdir getting-started-expressjs
+    cd getting-started-expressjs
+    npm init -y
+   ```
+2. **Install the Metaplex and Solana SDKs**
+   ```sh
+   npm install @metaplex-foundation/js @solana/web3.js
+   ```
 
-3. Edit the keypair.json file and add the secret key of your keypair in the following format
+3. **Add your main script file [`index.cjs`]**
+
+4. **Create the keypair.json file and add the secret key of your keypair in the following format**
 ```
 {
     "_keypair": {
@@ -19,14 +29,14 @@ It requires [Node.js](https://nodejs.org/) to run.
 }
 ```
 
-3. Run the server
+5. **Run the server**
 ```sh
-npm run start
+node index
 ```
 
-4. Open [http://localhost:3000/getNFT?mint=xxx](http://localhost:3000/getNFT?mint=xxx) with your browser after replacing (xxx) with your mint address to return the NFT object.
+5. Open [http://localhost:3000/getNFT?mint=xxx](http://localhost:3000/getNFT?mint=xxx) with your browser after replacing (xxx) with your mint address to return the NFT object.
 
-If you're interested in how this example app is using the Metaplex SDK, check out the [`index.js`](./index.js).
+If you're interested in how this example app is using the Metaplex SDK, check out the [`index.cjs`](./index.cjs).
 
 
 ## Learn More
