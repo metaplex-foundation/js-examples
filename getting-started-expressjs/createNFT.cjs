@@ -1,4 +1,4 @@
-const { Metaplex, keypairIdentity, mockStorage } = require("@metaplex-foundation/js-next");
+const { Metaplex, keypairIdentity, mockStorage } = require("@metaplex-foundation/js");
 const { Connection, clusterApiUrl, Keypair } = require("@solana/web3.js");
 
 const kp = require('./keypair.json');
