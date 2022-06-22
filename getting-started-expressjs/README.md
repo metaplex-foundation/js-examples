@@ -34,7 +34,7 @@ It requires [Node.js](https://nodejs.org/) to run.
 node index
 ```
 
-5. Open [http://localhost:3000/getNFT?mint=xxx](http://localhost:3000/getNFT?mint=xxx) with your browser after replacing (xxx) with your mint address to return the NFT object.
+6. Open [http://localhost:3000/getNFT?mint=xxx](http://localhost:3000/getNFT?mint=xxx) with your browser after replacing (xxx) with your mint address to return the NFT object.
 
 If you're interested in how this example app is using the Metaplex SDK, check out the [`index.cjs`](./index.cjs).
 
