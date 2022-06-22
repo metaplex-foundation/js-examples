@@ -1,8 +1,6 @@
-import { Metaplex, keypairIdentity, mockStorage } from "@metaplex-foundation/js-next";
-import { Connection, clusterApiUrl, PublicKey, Keypair } from "@solana/web3.js";
-import express from 'express';
-import { createRequire } from "module";
-const require = createRequire(import.meta.url);
+const { Metaplex, keypairIdentity, mockStorage } = require("@metaplex-foundation/js-next");
+const { Connection, clusterApiUrl, PublicKey, Keypair } = require("@solana/web3.js");
+const express = require('express');
 
 const kp = require('./keypair.json');
 const app = express();
