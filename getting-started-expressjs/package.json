@@ -3,9 +3,9 @@
   "name": "getting-started-express-js",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "index.cjs",
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.cjs"
   },
   "author": "Ahmed Ibrahim",
   "license": "ISC",
