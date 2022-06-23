@@ -1,19 +1,19 @@
-const { Metaplex, keypairIdentity, mockStorage } = require("@metaplex-foundation/js");
+const { Metaplex, keypairIdentity, bundlrStorage } = require("@metaplex-foundation/js");
 const { Connection, clusterApiUrl, PublicKey, Keypair } = require("@solana/web3.js");
+const fs = require('fs');
 const express = require('express');
 
-const kp = require('./keypair.json');
+const pathToMyKeypair = process.env.HOME + '/.config/solana/id.json';
+const keypairFile = fs.readFileSync(pathToMyKeypair);
+const secretKey = Buffer.from(JSON.parse(keypairFile.toString()));
+const myKeyPair = Keypair.fromSecretKey(secretKey);
+
 const app = express();
-
-const arr = Object.values(kp._keypair.secretKey);
-const secret = new Uint8Array(arr);
-const myKeyPair = Keypair.fromSecretKey(secret);
-
 
 const connection = new Connection(clusterApiUrl('devnet'));
 const metaplex = Metaplex.make(connection)
   .use(keypairIdentity(myKeyPair))
-  .use(mockStorage());
+  .use(bundlrStorage());
 
 app.get('/getNFT', async (req, res) => {
     let mintAddress = req.query.mint;
