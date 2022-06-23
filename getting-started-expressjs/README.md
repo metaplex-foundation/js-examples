@@ -16,22 +16,13 @@ It requires [Node.js](https://nodejs.org/) to run.
    npm install @metaplex-foundation/js @solana/web3.js
    ```
 
-3. **Add your main script file [`index.cjs`]**
+3. **Create your main script file [`index.cjs`] and copy the source code from [`index.cjs`](./index.cjs)**
 
-4. **Create the keypair.json file and add the secret key of your keypair in the following format**
-```
-{
-    "_keypair": {
-        "secretKey": [
-            (The secret key goes here)
-        ]
-    }
-}
-```
+4. **Make sure to update `pathToMyKeypair` variable with the path to your keypair**
 
 5. **Run the server**
 ```sh
-node index
+node index.cjs
 ```
 
 6. Open [http://localhost:3000/getNFT?mint=xxx](http://localhost:3000/getNFT?mint=xxx) with your browser after replacing (xxx) with your mint address to return the NFT object.
