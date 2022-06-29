@@ -135,7 +135,13 @@ This example has been generated using the following steps:
    },
    ```
 
-7. **That's it!** 🎉
+7. **Create the needed files**
+   ```sh
+   touch showNFTS.js MetaplexProvider.js useMetaplex.js
+   ```
+Then, copy/paste the source code from corresponding files inside these files.
+
+. **That's it!** 🎉
 
    You're now ready to start building your app. You can use the following commands to build and serve your app.
 
