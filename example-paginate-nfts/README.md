@@ -57,3 +57,8 @@ Pagination is not really a thing when it comes to `getProgramAcccount` RPC metho
 3. Once the user clicks `Next Page` or `Prev Page`, the useEffect is again triggered, the index range for new page is checked for any NFTs with metadata not loaded and the new view index range is set to current view.
 
 4. If the user clicks Fetch button with a different wallet address or with same wallet address to get a refreshed list of NFTs, the process repeats from step 1.
+
+## Workflow Diagram
+
+![image](https://user-images.githubusercontent.com/56197821/176737427-43df0aca-6ea9-443f-b9e9-718bdb654ab4.png)
+
