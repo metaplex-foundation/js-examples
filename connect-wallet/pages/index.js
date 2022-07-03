@@ -17,8 +17,7 @@ import {
 import { clusterApiUrl } from '@solana/web3.js';
 import { MetaplexProvider } from './MetaplexProvider';
 import { ShowNFTs } from './ShowNFTs';
-
-require('@solana/wallet-adapter-react-ui/styles.css');
+import '@solana/wallet-adapter-react-ui/styles.css';
 
 export default function Home() {
 
@@ -61,7 +60,7 @@ export default function Home() {
       <WalletProvider wallets={wallets} autoConnect>
         <WalletModalProvider>
           <MetaplexProvider>
-          <div className={styles.App}>
+            <div className={styles.App}>
               <WalletMultiButton />
               <WalletDisconnectButton />
               <select onChange={handleChange} className={styles.dropdown}>
@@ -80,3 +79,4 @@ export default function Home() {
 
 
 }
+

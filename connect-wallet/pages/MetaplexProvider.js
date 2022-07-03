@@ -1,4 +1,4 @@
-import { Metaplex, walletAdapterIdentity, bundlrStorage } from '@metaplex-foundation/js';
+import { Metaplex, walletAdapterIdentity, walletOrGuestIdentity, bundlrStorage } from '@metaplex-foundation/js';
 import { MetaplexContext } from './useMetaplex';
 import { useConnection, useWallet } from '@solana/wallet-adapter-react';
 import { useMemo } from 'react';
@@ -9,7 +9,7 @@ export const MetaplexProvider = ({ children }) => {
 
   const metaplex = useMemo(() => {
     return Metaplex.make(connection)
-      .use(walletAdapterIdentity(wallet))
+      .use(walletOrGuestIdentity(wallet.connected ? wallet : null))
       .use(bundlrStorage());
   }, [connection, wallet]);
 

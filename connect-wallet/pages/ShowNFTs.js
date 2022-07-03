@@ -7,8 +7,9 @@ export const ShowNFTs = () => {
 
     const [nft, setNft] = useState(null);
     const onClick = async () => {
-        const myNfts = await metaplex.nfts().findAllByOwner(metaplex.identity().publicKey);
+        let myNfts = await metaplex.nfts().findAllByOwner(metaplex.identity().publicKey);
         let randIdx = Math.floor(Math.random() * myNfts.length);
+        await myNfts[randIdx].metadataTask.run();
         setNft(myNfts[randIdx]);
     };
 
