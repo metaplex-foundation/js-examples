@@ -9,8 +9,7 @@ export const MetaplexProvider = ({ children }) => {
 
   const metaplex = useMemo(() => {
     return Metaplex.make(connection)
-      .use(walletOrGuestIdentity(wallet.connected ? wallet : null))
-      .use(bundlrStorage());
+      .use(walletOrGuestIdentity(wallet.connected ? wallet : null));
   }, [connection, wallet]);
 
   return (
