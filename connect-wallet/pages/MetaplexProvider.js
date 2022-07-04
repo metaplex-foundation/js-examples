@@ -1,4 +1,4 @@
-import { Metaplex, walletAdapterIdentity, walletOrGuestIdentity, bundlrStorage } from '@metaplex-foundation/js';
+import { Metaplex, walletOrGuestIdentity } from '@metaplex-foundation/js';
 import { MetaplexContext } from './useMetaplex';
 import { useConnection, useWallet } from '@solana/wallet-adapter-react';
 import { useMemo } from 'react';
