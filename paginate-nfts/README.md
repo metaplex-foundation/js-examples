@@ -7,9 +7,9 @@ We will be using the [findAllByOwner](https://github.com/metaplex-foundation/js#
 This example uses a new NextJS app with Metaplex which can be created by following the instructions listed in [Getting Started with Metaplex and Next.js](../getting-started-nextjs).
 
 In this tutorial, we are going to:
-- Use the `findAllByOwner` method
-- Store the list of lazy-loaded NFTs
-- Fetch the metadata of for each NFT in the current page
+- Use the `findAllByOwner` method.
+- Store the list of lazy-loaded NFTs.
+- Fetch the metadata of for each NFT in the current page.
 
 ![image](https://user-images.githubusercontent.com/56197821/176737427-43df0aca-6ea9-443f-b9e9-718bdb654ab4.png)
 
