@@ -72,7 +72,7 @@ Note that you can find all the code below in this [`pages/index.js` file](./page
    };
    ```
 
-   The index range of NFTs falling in current page is then set to the currentView state and is displayed.
+   The range of NFTs falling on the current page is then set to the `currentView` state and displayed.
 
 3. **If Page is changed**
    
