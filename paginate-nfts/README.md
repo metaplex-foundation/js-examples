@@ -1,6 +1,6 @@
 # Paginating NFTs for a given wallet address
 
-Pagination is not really a thing when it comes to `getProgramAcccount` RPC method. This tutorial demonstrates how you can still implement pagination using the [Metaplex JS SDK](https://github.com/metaplex-foundation/js).
+Pagination is not really a thing when it comes to the `getProgramAcccount` RPC method. This tutorial demonstrates how you can still simulate NFT pagination by lazy loading NFTs and fetching their metadata on demand.
 
 We will be using the [findAllByOwner](https://github.com/metaplex-foundation/js#findallbyowner) method in the Metaplex SDK which will give us the list of NFTs without their metadata JSON loaded. (This is crucial because if we have to fetch 1000 NFTs with their metadata, it will take a lot of time and hugely impact the performance of application and will fetch a large amount data in a single go).
 
