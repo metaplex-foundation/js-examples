@@ -13,7 +13,9 @@ In this tutorial, we are going to:
 
 ![image](https://user-images.githubusercontent.com/56197821/176737427-43df0aca-6ea9-443f-b9e9-718bdb654ab4.png)
 
-Okay, let's get started 🔥 ( You can find all the code in this [file](./pages/index.js))
+Okay, let's get started! 🔥
+
+Note that you can find all the code below in this [`pages/index.js` file](./pages/index.js).
 
 1. **`fetchNFTs` Function is called**
    
