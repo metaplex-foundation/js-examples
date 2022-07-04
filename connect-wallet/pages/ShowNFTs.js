@@ -30,7 +30,7 @@ export const ShowNFTs = () => {
               <div className={styles.nftPreview}>
                 <h1>{nft.name}</h1>
                 <img
-                  src={nft.metadata.image}
+                  src={nft.metadata.image || '/fallbackImage.jpg'}
                   alt="The downloaded illustration of the provided NFT address."
                 />
               </div>
