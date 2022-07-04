@@ -2,10 +2,6 @@
 
 Pagination is not really a thing when it comes to the `getProgramAcccount` RPC method. This tutorial demonstrates how you can still simulate NFT pagination by lazy loading NFTs and fetching their metadata on demand.
 
-We will be using the [findAllByOwner](https://github.com/metaplex-foundation/js#findallbyowner) method in the Metaplex SDK which will give us the list of NFTs without their JSON metadata loaded. This is important because if we had to fetch hundreds of NFTs with their JSON metadata, it will take a lot of time and greatly impact the performance of the application.
-
-This example uses a new NextJS app with Metaplex which can be created by following the instructions listed in [Getting Started with Metaplex and Next.js](../getting-started-nextjs).
-
 In this tutorial, we are going to:
 - Use the `findAllByOwner` method.
 - Store the list of lazy-loaded NFTs.
@@ -17,9 +13,15 @@ Okay, let's get started! 🔥
 
 Note that you can find all the code below in this [`pages/index.js` file](./pages/index.js).
 
-1. **`fetchNFTs` Function is called**
+1. **Create a new Next.js app.**
    
-   Once the user fills in the wallet address and clicks Fetch button, `fetchNFTs` function is called.
+   We will be using the [findAllByOwner](https://github.com/metaplex-foundation/js#findallbyowner) method in the Metaplex SDK which will give us the list of NFTs without their JSON metadata loaded. This is important because if we had to fetch hundreds of NFTs with their JSON metadata, it will take a lot of time and greatly impact the performance of the application.
+
+   This example uses a new NextJS app with Metaplex which can be created by following the instructions listed in [Getting Started with Metaplex and Next.js](../getting-started-nextjs).
+
+2. **Fetch all NFTs of a given wallet without their JSON metadata.**
+   
+   Once the user fills in their wallet address and clicks the "Fetch" button, we call the following `fetchNFTs` function.
 
    ```js
    const fetchNFTs = async () => {
@@ -34,26 +36,30 @@ Note that you can find all the code below in this [`pages/index.js` file](./page
       }
    };
    ```
-   This sets the `Loading` state to true, invalidates the current view and makes a call to `findAllByOwner` method with wallet address as input.
+   This sets the `Loading` state to true, invalidates the current view and calls the `findAllByOwner` method of the Metaplex SDK with the wallet address as input.
 
-   The data is set to `nftList` state and current page is set to default 1 (first page).
+   The returned data is then set to the `nftList` state and the current page is reset to the first page since we will be displaying a new list of NFTs.
 
-2. **UseEffect gets Triggered**
+3. **Load the JSON metadata of every NFT in the current page.**
    
-   Once the nftList is in place and currentPage is set to 1, it triggers the useEffect.
+   We then use a `useEffect` hook to load the NFTs of the current page whenever `nftList` or `currentPage` gets updated.
+   
+   For instance, when the user provides its wallet address, the `nftList` is updated and `currentPage` is set to 1, which means the `useEffect` hook will be triggered.
 
    ```js
    useEffect(() => {
-   if (nftList) {
-   const execute = async () => {
-   const startIndex = (currentPage - 1) * perPage;
-   const endIndex = currentPage * perPage;
-   await loadData(startIndex, endIndex);
-   setCurrentView(nftList.slice(startIndex, endIndex));
-   setLoading(false);
-   };
-   execute();
-   }
+      if (!nftList) {
+         return;
+      }
+
+      const execute = async () => {
+         const startIndex = (currentPage - 1) * perPage;
+         const endIndex = currentPage * perPage;
+         await loadData(startIndex, endIndex);
+         setCurrentView(nftList.slice(startIndex, endIndex));
+         setLoading(false);
+      };
+      execute();
    }, [nftList, currentPage]);
    ```
 
@@ -74,19 +80,17 @@ Note that you can find all the code below in this [`pages/index.js` file](./page
 
    The range of NFTs falling on the current page is then set to the `currentView` state and displayed.
 
-3. **If Page is changed**
+4. **What happens when the page changes?**
    
-   Once the user clicks `Next Page` or `Prev Page`, the useEffect is again triggered, the index range for new page is checked for any NFTs with metadata not loaded and the new view index range is set to current view.
+   Whenever the user clicks the "Next Page" or "Prev Page" button, the `useEffect` hook is again triggered. That means, it will load the JSON metadata for any NFT within that index range that isn't already loaded and display them to the current view.
 
-4. **If Fetch button is clicked again**
+5. **That's it!** 🎉
    
-   If the user clicks Fetch button with a different wallet address or with same wallet address to get a refreshed list of NFTs, the process repeats from step 1.
+   Congrats, you've now got a simple app that displays the NFTs inside a wallet. Let's see the final output!
 
-Let's see the final output 🥳
+   Landing Screen
+   ![image](./output1.png)
 
-Landing Screen
-![image](./output1.png)
-
-Fetched NFTs (First Page)
-![image](./output2.png)
+   Fetched NFTs (First Page)
+   ![image](./output2.png)
 

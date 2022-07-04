@@ -18,17 +18,31 @@ export default function Home() {
   const [currentView, setCurrentView] = useState(null);
   const perPage = 1;
 
-  useEffect(() => {
-    if (nftList) {
-      const execute = async () => {
-        const startIndex = (currentPage - 1) * perPage;
-        const endIndex = currentPage * perPage;
-        await loadData(startIndex, endIndex);
-        setCurrentView(nftList.slice(startIndex, endIndex));
-        setLoading(false);
-      };
-      execute();
+  const fetchNFTs = async () => {
+    try {
+      setLoading(true);
+      setCurrentView(null);
+      const list = await mx.nfts().findAllByOwner(new PublicKey(address));
+      setNftList(list);
+      setCurrentPage(1);
+    } catch (e) {
+      console.error(e);
     }
+  };
+
+  useEffect(() => {
+    if (!nftList) {
+      return;
+    }
+
+    const execute = async () => {
+      const startIndex = (currentPage - 1) * perPage;
+      const endIndex = currentPage * perPage;
+      await loadData(startIndex, endIndex);
+      setCurrentView(nftList.slice(startIndex, endIndex));
+      setLoading(false);
+    };
+    execute();
   }, [nftList, currentPage]);
 
   const loadData = async (startIndex, endIndex) => {
@@ -40,18 +54,6 @@ export default function Home() {
 
     const promises = nftsToLoad.map((nft) => nft.metadataTask.run());
     await Promise.all(promises);
-  };
-
-  const fetchNFTs = async () => {
-    try {
-      setLoading(true);
-      setCurrentView(null);
-      const list = await mx.nfts().findAllByOwner(new PublicKey(address));
-      setNftList(list);
-      setCurrentPage(1);
-    } catch (e) {
-      console.error(e);
-    }
   };
 
   const changeCurrentPage = (operation) => {
