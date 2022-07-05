@@ -2,6 +2,8 @@
 
 Pagination is not really a thing when it comes to the `getProgramAcccount` RPC method. This tutorial demonstrates how you can still simulate NFT pagination by lazy loading NFTs and fetching their metadata on demand.
 
+We will be using the [findAllByOwner](https://github.com/metaplex-foundation/js#findallbyowner) method in the Metaplex SDK which will give us the list of NFTs without their JSON metadata loaded. This is important because if we had to fetch hundreds of NFTs with their JSON metadata, it will take a lot of time and greatly impact the performance of the application.
+
 In this tutorial, we are going to:
 - Use the `findAllByOwner` method.
 - Store the list of lazy-loaded NFTs.
@@ -14,8 +16,6 @@ Okay, let's get started! 🔥
 Note that you can find all the code below in this [`pages/index.js` file](./pages/index.js).
 
 1. **Create a new Next.js app.**
-   
-   We will be using the [findAllByOwner](https://github.com/metaplex-foundation/js#findallbyowner) method in the Metaplex SDK which will give us the list of NFTs without their JSON metadata loaded. This is important because if we had to fetch hundreds of NFTs with their JSON metadata, it will take a lot of time and greatly impact the performance of the application.
 
    This example uses a new NextJS app with Metaplex which can be created by following the instructions listed in [Getting Started with Metaplex and Next.js](../getting-started-nextjs).
 
