@@ -17,23 +17,20 @@ This example has been generated using the following steps:
          @solana/wallet-adapter-wallets
    ```
 
-3. **Create `pages/useMetaplex.js` file**
+3. **Create the `pages/useMetaplex.js` file.**
 
-`useMetaplex.js` file is responsible for creating and using the Metaplex Context
-
-```js
-const DEFAULT_CONTEXT = {
-  metaplex: null,
-};
-
-export const MetaplexContext = createContext(DEFAULT_CONTEXT);
-
-export function useMetaplex() {
-  return useContext(MetaplexContext);
-}
-```
-
-As shown, It creates a context for metaplex to be accessible by the whole application, so that we could use it whenever needed.
+  The `useMetaplex.js` file is responsible for creating and exposing a new Metaplex Context which will be used within our components to access the Metaplex SDK.
+  
+  ```js
+  const DEFAULT_CONTEXT = {
+    metaplex: null,
+  };
+  
+  export const MetaplexContext = createContext(DEFAULT_CONTEXT);
+  
+  export function useMetaplex() {
+    return useContext(MetaplexContext);
+  }
 
 
 4. **Create `pages/MetaplexProvider.js` file**
