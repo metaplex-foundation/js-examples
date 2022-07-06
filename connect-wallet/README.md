@@ -20,57 +20,56 @@ This example has been generated using the following steps:
 3. **Create the `pages/useMetaplex.js` file.**
 
   The `useMetaplex.js` file is responsible for creating and exposing a new Metaplex Context which will be used within our components to access the Metaplex SDK.
-  
+
   ```js
   const DEFAULT_CONTEXT = {
     metaplex: null,
   };
-  
+
   export const MetaplexContext = createContext(DEFAULT_CONTEXT);
-  
+
   export function useMetaplex() {
     return useContext(MetaplexContext);
   }
 
 
-4. **Create `pages/MetaplexProvider.js` file**
+4. **Create the `pages/MetaplexProvider.js` file.**
 
-`MetaplexProvider` component is a component that uses the wallet provided by the `WalletProvider` component and return a Metaplex instance which could be used later.
-
-```js
-export const MetaplexProvider = ({ children }) => {
-  const { connection } = useConnection();
-  const wallet = useWallet();
-
-  const metaplex = useMemo(() => {
-    return Metaplex.make(connection)
-      .use(walletOrGuestIdentity(wallet.connected ? wallet : null));
-  }, [connection, wallet]);
-
-  return (
-    <MetaplexContext.Provider value={{ metaplex }}>
-      {children}
-    </MetaplexContext.Provider>
-  )
-}
-```
-
-As shown, It creates a new component `MetaplexProvider` that creates a new instance of metaplex to be used be the rest of the application.
-
-5. **Create `pages/ShowNFTs.js` file**
-
-`ShowNFTs` component is the component responsible for retrieving, picking and showing a random NFT from the connected wallet.
+  The `MetaplexProvider` component uses the wallet provided by the `WalletProvider` component to define the Metaplex Context previously created.
 
 ```js
-   let myNfts = await metaplex.nfts().findAllByOwner(metaplex.identity().publicKey);
-   let randIdx = Math.floor(Math.random() * myNfts.length);
-   await myNfts[randIdx].metadataTask.run();
-   setNft(myNfts[randIdx]);
+  export const MetaplexProvider = ({ children }) => {
+    const { connection } = useConnection();
+    const wallet = useWallet();
+
+    const metaplex = useMemo(() => {
+      return Metaplex.make(connection)
+        .use(walletOrGuestIdentity(wallet.connected ? wallet : null));
+    }, [connection, wallet]);
+
+    return (
+      <MetaplexContext.Provider value={{ metaplex }}>
+        {children}
+      </MetaplexContext.Provider>
+    )
+  }
 ```
 
-As shown here, At a click of the button, we are fetching all the NFTs by the owner, and selecting a random NFT among them.
+As you can see, it uses the `walletOrGuestIdentity` plugin so that the identity of the Metaplex SDK is set to "guest" when the wallet is not yet connected.
 
-Since the JSON metadata is not downloaded automatically we download it by the insturction
+5. **Create the `pages/ShowNFTs.js` file**
+  The `ShowNFTs` component is responsible for retrieving, picking and showing a random NFT from the connected wallet.
+
+```js
+  let myNfts = await metaplex.nfts().findAllByOwner(metaplex.identity().publicKey);
+  let randIdx = Math.floor(Math.random() * myNfts.length);
+  await myNfts[randIdx].metadataTask.run();
+  setNft(myNfts[randIdx]);
+```
+
+As shown here, when the user clicks the refresh button, we fetch all its NFTs and select a random one among them.
+
+Since the JSON metadata is not loaded automatically we load it by running the following task.
 ```js
    await myNfts[randIdx].metadataTask.run();
 ```
@@ -82,7 +81,7 @@ Since the JSON metadata is not downloaded automatically we download it by the in
    Note that now that the wallet has been integrated with the Metaplex JS SDK, you can use all of its features on behalf of the user and it will request their approval every time they need to send a transaction or sign a message.
 
    Let's see a few screenshots of the final result!
-   
+
 ![image](https://user-images.githubusercontent.com/34144004/177217016-7b98dc84-516d-4f62-a875-9a13976ba9ce.png)
 ![image](https://user-images.githubusercontent.com/34144004/177217061-343cdba2-0411-4b58-884b-8ef5de157e40.png)
 ![image](https://user-images.githubusercontent.com/34144004/177217096-6c35559b-cd25-4e4b-aedc-9843210e6f43.png)
