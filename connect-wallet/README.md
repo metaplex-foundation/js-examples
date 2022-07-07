@@ -1,4 +1,4 @@
-# Connect Wallet in the Browser
+# Connect with wallets in the browser
 
 In this tutorial, we will see how to connect a wallet in the browser using the [Solana Wallet Adapter Library](https://github.com/solana-labs/wallet-adapter) and the [Metaplex JS SDK](https://github.com/metaplex-foundation/js).
 

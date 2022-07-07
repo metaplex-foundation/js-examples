@@ -1,4 +1,4 @@
-# Paginating NFTs for a given wallet address
+# Fetch and paginate NFTs in a given wallet
 
 Pagination is not really a thing when it comes to the `getProgramAcccount` RPC method. This tutorial demonstrates how you can still simulate NFT pagination by lazy loading NFTs and fetching their metadata on demand.
 

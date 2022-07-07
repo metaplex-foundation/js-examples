@@ -10,5 +10,5 @@ Examples and Starter Kits using the new Metaplex JS SDK.
 - [Getting Started with Metaplex and Express.js](./getting-started-expressjs)
 
 ## Reference Implementations
-- [Connecting Wallet with Browser](./connect-wallet)
-- [Paginate NFTs for a given wallet address](./paginate-nfts)
+- [Connect with wallets in the browser](./connect-wallet)
+- [Fetch and paginate NFTs in a given wallet](./paginate-nfts)
