@@ -1322,7 +1322,7 @@
     "@metaplex-foundation/beet" ">=0.1.0"
     "@solana/web3.js" "^1.31.0"
 
-"@metaplex-foundation/beet@>=0.1.0":
+"@metaplex-foundation/beet@>=0.1.0", "@metaplex-foundation/beet@^0.2.0":
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/@metaplex-foundation/beet/-/beet-0.2.0.tgz#e543e17fd1c4dc1251e9aea481a7429bc73f70b8"
   integrity sha512-H570hkJxmx/FxET1OggPPLkPL7psYQa71rNI9NJjYRM8WXdrEvmI/IRIEUW2KR6RqwWWN3FvlRHnKoQUV/lQtA==
@@ -1345,20 +1345,19 @@
   resolved "https://registry.yarnpkg.com/@metaplex-foundation/cusper/-/cusper-0.0.2.tgz#dc2032a452d6c269e25f016aa4dd63600e2af975"
   integrity sha512-S9RulC2fFCFOQraz61bij+5YCHhSO9llJegK8c8Y6731fSi6snUSQJdCUqYS8AIgR0TKbQvdvgSyIIdbDFZbBA==
 
-"@metaplex-foundation/js-next@^0.8.3":
-  version "0.8.3"
-  resolved "https://registry.yarnpkg.com/@metaplex-foundation/js-next/-/js-next-0.8.3.tgz#a8943f01259a0a91c3450c53b38d52a2ea57b339"
-  integrity sha512-vaR2EkdVlUNh4WhQQcGaKx+wCOVcw9fmCK4s+fp3hrKDKI9mA9j1NDYYGuUwdoJgRPdbZ0JP7/MKxG+xDk9ilg==
+"@metaplex-foundation/js@^0.11.5":
+  version "0.11.6"
+  resolved "https://registry.yarnpkg.com/@metaplex-foundation/js/-/js-0.11.6.tgz#f64d31be922dd6faf79f2fd8df62232cc3858e79"
+  integrity sha512-WV61Ncsr00ok9WezRjZ3ryq8UIj7Ji//yREkZDtOkINeAITlYPPkPWP/6bhUF14YD8NdP8mRm6/M6rUV2Zf9Pw==
   dependencies:
     "@aws-sdk/client-s3" "^3.54.1"
     "@bundlr-network/client" "^0.7.3"
-    "@metaplex-foundation/beet" "^0.1.0"
+    "@metaplex-foundation/beet" "^0.2.0"
     "@metaplex-foundation/beet-solana" "^0.1.1"
     "@metaplex-foundation/mpl-candy-machine" "^4.2.0"
-    "@metaplex-foundation/mpl-token-metadata" "^2.1.1"
+    "@metaplex-foundation/mpl-token-metadata" "^2.1.2"
     "@solana/spl-token" "^0.2.0"
-    "@solana/wallet-adapter-base" "^0.9.3"
-    "@solana/web3.js" "^1.37.0"
+    "@solana/web3.js" "^1.44.0"
     abort-controller "^3.0.0"
     bignumber.js "^9.0.2"
     bn.js "^5.2.0"
@@ -1390,10 +1389,10 @@
     "@solana/web3.js" "^1.35.1"
     bs58 "^4.0.1"
 
-"@metaplex-foundation/mpl-token-metadata@^2.1.1":
-  version "2.1.1"
-  resolved "https://registry.yarnpkg.com/@metaplex-foundation/mpl-token-metadata/-/mpl-token-metadata-2.1.1.tgz#473c89546e46ba37a8cd2a02c42b14522fe5dbf1"
-  integrity sha512-0rateJX7T59VCLom/z/2XZALUlVvgSvvaAe2lKeIIz0I2MSKtZEcJwElKp3vlO/xGxQK/kW5ImFmWtVFML95Tw==
+"@metaplex-foundation/mpl-token-metadata@^2.1.2":
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/@metaplex-foundation/mpl-token-metadata/-/mpl-token-metadata-2.2.0.tgz#01dc9d17c158cb4acd365ecbae7600ba09811d93"
+  integrity sha512-RCz8ULUGQ13n2S2IwdTJ+6O65fR0Nr6jNZet3eoe9t37U7wt5EfTHUf5sbmnj1nJbRnh4P7s5BoAjMeE7msGQw==
   dependencies:
     "@metaplex-foundation/beet" "^0.1.0"
     "@metaplex-foundation/beet-solana" "^0.1.1"
@@ -1557,7 +1556,7 @@
     "@solana/web3.js" "^1.32.0"
     start-server-and-test "^1.14.0"
 
-"@solana/wallet-adapter-base@^0.9.2", "@solana/wallet-adapter-base@^0.9.3":
+"@solana/wallet-adapter-base@^0.9.2":
   version "0.9.5"
   resolved "https://registry.yarnpkg.com/@solana/wallet-adapter-base/-/wallet-adapter-base-0.9.5.tgz#6780dd096d30f0e1ffc9c7869029ec37b2a2fc9e"
   integrity sha512-KCrSB2s8lA38Bd+aPvHlwPEHZU1owD6LSCikjumUaR3HCcpv+V1lxgQX+tdNaDyEVTKlAYNd0uJU+yQfQlkiOA==
@@ -1565,7 +1564,7 @@
     "@solana/web3.js" "^1.36.0"
     eventemitter3 "^4.0.0"
 
-"@solana/web3.js@^1.31.0", "@solana/web3.js@^1.32.0", "@solana/web3.js@^1.35.1", "@solana/web3.js@^1.36.0", "@solana/web3.js@^1.37.0", "@solana/web3.js@^1.41.4":
+"@solana/web3.js@^1.31.0", "@solana/web3.js@^1.32.0", "@solana/web3.js@^1.35.1", "@solana/web3.js@^1.36.0", "@solana/web3.js@^1.41.4":
   version "1.41.4"
   resolved "https://registry.yarnpkg.com/@solana/web3.js/-/web3.js-1.41.4.tgz#595aa29a4a61c181b8c8f5cf0bbef80b4739cfab"
   integrity sha512-2/mjqUcGsBkLEvKxA+rWFE1vODBycAMa62r3wm3Uzb6nmsXQQNTotB+6YoeLQmF0mxVoy8ZA+/QENzBkGkPzSg==
@@ -1585,6 +1584,28 @@
     rpc-websockets "^7.4.2"
     secp256k1 "^4.0.2"
     sinon-chai "^3.7.0"
+    superstruct "^0.14.2"
+    tweetnacl "^1.0.0"
+
+"@solana/web3.js@^1.44.0":
+  version "1.44.2"
+  resolved "https://registry.yarnpkg.com/@solana/web3.js/-/web3.js-1.44.2.tgz#5303efd94a7f2d6054a1483a4b4db4a26eb2a392"
+  integrity sha512-DvrJMoKonLuaX0/KyyJXcP/+w+9q8mve4gN3hC2Ptg51K/Gi1/cx6oQN2lbRZb4wYPBd2s2GDAJAJUAwZGsEug==
+  dependencies:
+    "@babel/runtime" "^7.12.5"
+    "@ethersproject/sha2" "^5.5.0"
+    "@solana/buffer-layout" "^4.0.0"
+    bigint-buffer "^1.1.5"
+    bn.js "^5.0.0"
+    borsh "^0.7.0"
+    bs58 "^4.0.1"
+    buffer "6.0.1"
+    fast-stable-stringify "^1.0.0"
+    jayson "^3.4.4"
+    js-sha3 "^0.8.0"
+    node-fetch "2"
+    rpc-websockets "^7.4.2"
+    secp256k1 "^4.0.2"
     superstruct "^0.14.2"
     tweetnacl "^1.0.0"
 
@@ -3775,7 +3796,7 @@ node-addon-api@^2.0.0:
   resolved "https://registry.yarnpkg.com/node-addon-api/-/node-addon-api-2.0.2.tgz#432cfa82962ce494b132e9d72a15b29f71ff5d32"
   integrity sha512-Ntyt4AIXyaLIuMHF6IOoTakB3K+RWxwtsHNRxllEoA6vPwP9o4866g6YWDLUdnucilZhmkxiHwHr11gAENw+QA==
 
-node-fetch@2.6.7, node-fetch@^2.6.1:
+node-fetch@2, node-fetch@2.6.7, node-fetch@^2.6.1:
   version "2.6.7"
   resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.6.7.tgz#24de9fba827e3b4ae44dc8b20256a379160052ad"
   integrity sha512-ZjMPFEfVx5j+y2yF35Kzx5sF7kDzxuDj6ziH4FFbOp87zKDZNx8yExJIb05OGF4Nlt9IHFIMBkRl41VdvcNdbQ==

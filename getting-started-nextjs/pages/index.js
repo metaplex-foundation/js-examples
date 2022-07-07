@@ -1,6 +1,6 @@
 import Head from "next/head";
 import styles from "../styles/Home.module.css";
-import { Metaplex } from "@metaplex-foundation/js-next";
+import { Metaplex } from "@metaplex-foundation/js";
 import { clusterApiUrl, Connection, PublicKey } from "@solana/web3.js";
 import { useState } from "react";
 
@@ -13,7 +13,7 @@ export default function Home() {
   );
   const [nft, setNft] = useState(null);
   const fetchNft = async () => {
-    const nft = await mx.nfts().findNftByMint(new PublicKey(address));
+    const nft = await mx.nfts().findByMint(new PublicKey(address));
     setNft(nft);
   };
 

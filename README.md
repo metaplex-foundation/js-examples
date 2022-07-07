@@ -8,3 +8,4 @@ Examples and Starter Kits using the new Metaplex JS SDK.
 - [Getting Started with Metaplex and Vite](./getting-started-vite) (React, Vue, Svelte, etc. and Vite/Rollup)
 - [Getting Started with Metaplex and Express.js](./getting-started-expressjs)
 - [Connecting Wallet with Browser](./connect-wallet)
+- [Paginate NFTs for a given wallet address](./paginate-nfts)
