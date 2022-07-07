@@ -34,46 +34,47 @@ This example has been generated using the following steps:
 
 
 4. **Create the `pages/MetaplexProvider.js` file.**
-
+  
   The `MetaplexProvider` component uses the wallet provided by the `WalletProvider` component to define the Metaplex Context previously created.
-
-```js
+  
+  ```js
   export const MetaplexProvider = ({ children }) => {
     const { connection } = useConnection();
     const wallet = useWallet();
-
+  
     const metaplex = useMemo(() => {
       return Metaplex.make(connection)
         .use(walletOrGuestIdentity(wallet.connected ? wallet : null));
     }, [connection, wallet]);
-
+  
     return (
       <MetaplexContext.Provider value={{ metaplex }}>
         {children}
       </MetaplexContext.Provider>
     )
   }
-```
-
-As you can see, it uses the `walletOrGuestIdentity` plugin so that the identity of the Metaplex SDK is set to "guest" when the wallet is not yet connected.
+  ```
+  
+  As you can see, it uses the `walletOrGuestIdentity` plugin so that the identity of the Metaplex SDK is set to "guest" when the wallet is not yet connected.
 
 5. **Create the `pages/ShowNFTs.js` file**
+
   The `ShowNFTs` component is responsible for retrieving, picking and showing a random NFT from the connected wallet.
+  
+  ```js
+     let myNfts = await metaplex.nfts().findAllByOwner(metaplex.identity().publicKey);
+     let randIdx = Math.floor(Math.random() * myNfts.length);
+     await myNfts[randIdx].metadataTask.run();
+     setNft(myNfts[randIdx]);
+  ```
+  
+  As shown here, when the user clicks the refresh button, we fetch all its NFTs and select a random one among them.
+  
+  Since the JSON metadata is not loaded automatically we load it by running the following task.
 
-```js
-  let myNfts = await metaplex.nfts().findAllByOwner(metaplex.identity().publicKey);
-  let randIdx = Math.floor(Math.random() * myNfts.length);
-  await myNfts[randIdx].metadataTask.run();
-  setNft(myNfts[randIdx]);
-```
-
-As shown here, when the user clicks the refresh button, we fetch all its NFTs and select a random one among them.
-
-Since the JSON metadata is not loaded automatically we load it by running the following task.
-```js
-   await myNfts[randIdx].metadataTask.run();
-```
-
+  ```js
+     await myNfts[randIdx].metadataTask.run();
+  ```
 
 6. **That's it!** 🎉
    You're now ready to start building your app whilst having access to the user's wallet!
