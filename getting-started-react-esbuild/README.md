@@ -6,7 +6,7 @@ This example has been generated using the following steps:
 
 1. **Create a new project using NPM.**
 
-   Esbuild does not has any standard template for React which can be utilized for initializing the project like CRA or Vite. So, we will be creating a empty npm project and setup everything from scratch.
+   Esbuild does not have any standard template for React which can be utilized for initializing the project like CRA or Vite. So, we will be creating an empty npm project and setup everything from scratch.
 
    ```sh
    mkdir getting-started-react-esbuild
@@ -14,7 +14,7 @@ This example has been generated using the following steps:
    npm init -y
    ```
 
-   Once empty npm project is setup, we will setup a basic directory structure with mainly `public` and `src` folder and a config file (`build.js`) which will be used for compiling and bundling the react app with esbuild.
+   Once the empty npm project is ready, we will set up a basic directory structure with mainly `public` and `src` folders and a config file (`build.js`) which will be used for compiling and bundling the react app with esbuild.
 
    ```
    getting-started-react-esbuild/
@@ -28,7 +28,7 @@ This example has been generated using the following steps:
    └── package.json
    ```
 
-2. **Install the React, React DOM, EsBuild, Metaplex and the Solana SDKs.**
+2. **Install React, EsBuild and the Metaplex SDK.**
 
    ```sh
    npm install react react-dom esbuild @metaplex-foundation/js @solana/web3.js
@@ -49,20 +49,20 @@ This example has been generated using the following steps:
 
     <details>
      <summary>Why?</summary>
-     Esbuild does not include any server that could be used to preview the esbuild built bundle in browser. So we will be using servor for that
+     Esbuild does not include any server that could be used to preview our app in the browser. So we will be using servor for that.
    </details>
 
    ```sh
    npm install -D servor
    ```
 
-5. **Update your Esbuild build file and package.json**.
+5. **Update your build.js file**.
 
-   Add the following code to `build.js` file we created.
+   Add the following code to the `build.js` file we created earlier.
 
    <details>
      <summary>Why?</summary>
-     The following code will build and bundle your react app with EsBuild. It will also start a dev server when using in development
+     The following code will build and bundle your react app with EsBuild. It will also start a dev server when used in development.
    </details>
 
    ```js
@@ -75,7 +75,7 @@ This example has been generated using the following steps:
 
    const outdirectory = 'public';
 
-   //clear out any old JS or CSS
+   // Clean previously built assets.
    fs.readdir(outdirectory, (err, files) => {
      if (err) throw err;
      for (const file of files) {
@@ -158,7 +158,7 @@ This example has been generated using the following steps:
 
 6. **Update your `package.json`.**
 
-   Add the following script in your `package.json` file.
+   Add the following scripts to your `package.json` file.
 
    ```diff
    "scripts": {
