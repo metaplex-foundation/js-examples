@@ -1,0 +1,82 @@
+.App {
+  text-align: center;
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+}
+
+.container {
+  margin: auto;
+  width: 100%;
+  max-width: 500px;
+  padding: 2rem;
+}
+
+.title {
+  text-align: left;
+  font-size: 12px;
+  font-weight: 500;
+  color: #0f172a;
+}
+
+.nftForm {
+  display: flex;
+
+}
+
+.nftForm input {
+  flex: 1;
+  padding: 1rem;
+  margin: 0;
+  margin-right: -1.5px;
+  border: 1.5px solid #0f172a;
+}
+
+.nftForm input:hover {
+  border-color: #4f46e5;
+  z-index: 1;
+}
+
+.nftForm input:focus {
+  outline: none;
+  border-color: #4f46e5;
+  z-index: 1;
+}
+
+.nftForm button {
+  background: white;
+  padding: 1rem;
+  margin: 0;
+  border: 1.5px solid #0f172a;
+  color: #0f172a;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.nftForm button:hover {
+  border-color: #4f46e5;
+  color: #4f46e5;
+}
+
+.nftPreview {
+  margin-top: 4rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.nftPreview h1 {
+  font-size: 20px;
+  font-weight: 500;
+  color: #0f172a;
+  border: 1.5px solid #0f172a;
+  background-color: white;
+  padding: 0.5rem 1rem;
+  position: relative;
+  margin-bottom: -22px;
+  transform: rotate(-5deg);
+}
+
+.nftPreview img {
+  max-width: 100%;
+}
