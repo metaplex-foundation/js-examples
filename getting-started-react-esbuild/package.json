@@ -1,6 +1,6 @@
 {
-  "name": "react-esbuild",
-  "version": "1.0.0",
+  "name": "getting-started-react-esbuild",
+  "version": "0.1.0",
   "description": "",
   "main": "src/index.js",
   "scripts": {
