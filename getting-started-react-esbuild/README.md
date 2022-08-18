@@ -202,4 +202,4 @@ This example has been generated using the following steps:
    npm run build
    ```
 
-   If you're interested in how this example app is using the Metaplex SDK, check out the [`App.js`](./src/App.js) and [`App.css`](./src/App.css) files in the `src` directory.
+   If you're interested in how this example app is using the Metaplex SDK, check out the [`App.jsx`](./src/App.jsx) and [`App.css`](./src/App.css) files in the `src` directory.
