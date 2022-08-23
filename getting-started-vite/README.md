@@ -1,8 +1,6 @@
 # Getting Started with Metaplex and Vite
 
-This example sets up a new React app with Metaplex using Vite.
-
-However, note that the same steps can be followed to create a web app using other frameworks such as VueJS or Svelte.
+This example makes an app with Metaplex with Vite, using React, VueJS, Svelte or any other framework supported by Vite.
 
 This example has been generated using the following steps:
 
@@ -26,7 +24,7 @@ This example has been generated using the following steps:
 
    <details>
      <summary>Why?</summary>
-     Some dependencies of the Metaplex SDK are still relying on NPM packages that are not available in the browser. To make sure that the Metaplex SDK works in the browser, we need to install some polyfills. Note that we are installing some polyfills via rollup plugins since Vite uses rollup under the hood the bundle for production.
+     Some dependencies of the Metaplex SDK are still relying on node.js features that are not available in the browser by default. To make sure that the Metaplex SDK works in the browser, we need to install some polyfills. Note that we are installing some polyfills via rollup plugins since Vite uses rollup under the hood the bundle for production.
    </details>
 
    ```sh
@@ -41,18 +39,21 @@ This example has been generated using the following steps:
 
    <details>
      <summary>Why?</summary>
-     The main goal of all these changes is to polyfill NPM packages that are not available in the browser. The configuration updates look slightly confusing because we have to polyfill differently for development and production. That's because Vite uses rollup under the hood to bundle the application for production but does not bundle your application at all in development.
+     The main goal of all these changes is to polyfill node.js features that are not available by default in the browser. The configuration updates look slightly confusing because we have to polyfill differently for development and production. That's because Vite uses rollup under the hood to bundle the application for production but does not bundle your application at all in development.
    </details>
 
    ```js
    import { defineConfig } from "vite";
    import react from "@vitejs/plugin-react";
+   // Or for other frameworks:
+   // import { svelte } from "@sveltejs/vite-plugin-svelte";
+   // etc.
    import { NodeGlobalsPolyfillPlugin } from "@esbuild-plugins/node-globals-polyfill";
    import nodePolyfills from "rollup-plugin-node-polyfills";
 
    // https://vitejs.dev/config/
    export default defineConfig({
-     plugins: [react()],
+     plugins: [react()], // Or svelte(), etc.
      resolve: {
        alias: {
          stream: "rollup-plugin-node-polyfills/polyfills/stream",
