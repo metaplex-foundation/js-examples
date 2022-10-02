@@ -1,5 +1,5 @@
 import "./App.css";
-import { Metaplex } from "@metaplex-foundation/js-next";
+import { Metaplex } from "@metaplex-foundation/js";
 import { clusterApiUrl, Connection, PublicKey } from "@solana/web3.js";
 import { useState } from "react";
 
@@ -9,9 +9,11 @@ const mx = Metaplex.make(connection);
 function App() {
   const [address, setAddress] = useState('3ijFZcJKmp1EnDbbuaumWYvEFbztx9NRupwTXTchK9bP');
   const [nft, setNft] = useState(null);
+
   const fetchNft = async () => {
-    const nft = await mx.nfts().findNftByMint(new PublicKey(address));
-    setNft(nft);
+    const asset = await mx.nfts().findByMint({ mintAddress: new PublicKey(address) }).run();
+
+    setNft(asset);
   };
 
   return (
@@ -28,7 +30,7 @@ function App() {
         </div>
         {nft && <div className="nftPreview">
           <h1>{nft.name}</h1>
-          <img src={nft.metadata.image} alt="The downloaded illustration of the provided NFT address." />
+          <img src={nft.json.image} alt="The downloaded illustration of the provided NFT address." />
         </div>}
       </div>
     </div>

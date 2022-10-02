@@ -11,9 +11,11 @@ function App() {
     '3ijFZcJKmp1EnDbbuaumWYvEFbztx9NRupwTXTchK9bP',
   );
   const [nft, setNft] = useState(null);
+
   const fetchNft = async () => {
-    const nft = await mx.nfts().findByMint(new PublicKey(address));
-    setNft(nft);
+    const asset = await mx.nfts().findByMint({ mintAddress: new PublicKey(address) }).run();
+
+    setNft(asset);
   };
 
   return (
@@ -32,7 +34,7 @@ function App() {
           <div className="nftPreview">
             <h1>{nft.name}</h1>
             <img
-              src={nft.metadata.image}
+              src={nft.json.image}
               alt="The downloaded illustration of the provided NFT address."
             />
           </div>

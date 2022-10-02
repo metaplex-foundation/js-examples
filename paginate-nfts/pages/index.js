@@ -22,7 +22,7 @@ export default function Home() {
     try {
       setLoading(true);
       setCurrentView(null);
-      const list = await mx.nfts().findAllByOwner(new PublicKey(address));
+      const list = await mx.nfts().findAllByOwner({ owner: new PublicKey(address)}).run();
       setNftList(list);
       setCurrentPage(1);
     } catch (e) {
@@ -38,22 +38,20 @@ export default function Home() {
     const execute = async () => {
       const startIndex = (currentPage - 1) * perPage;
       const endIndex = currentPage * perPage;
-      await loadData(startIndex, endIndex);
-      setCurrentView(nftList.slice(startIndex, endIndex));
+      const nfts = await loadData(startIndex, endIndex);
+
+      setCurrentView(nfts);
       setLoading(false);
     };
+
     execute();
   }, [nftList, currentPage]);
 
   const loadData = async (startIndex, endIndex) => {
-    const nftsToLoad = nftList.filter((nft, index) => {
-      return (
-        index >= startIndex && index < endIndex && nft.metadataTask.isPending()
-      );
-    });
+    const nftsToLoad = nftList.filter((_, index) => (index >= startIndex && index < endIndex))
 
-    const promises = nftsToLoad.map((nft) => nft.metadataTask.run());
-    await Promise.all(promises);
+    const promises = nftsToLoad.map((metadata) => mx.nfts().load({ metadata }).run());
+    return Promise.all(promises);
   };
 
   const changeCurrentPage = (operation) => {
@@ -94,7 +92,7 @@ export default function Home() {
                 <h1>{nft.name}</h1>
                 <img
                   className={styles.nftImage}
-                  src={nft.metadata.image || '/fallbackImage.jpg'}
+                  src={nft?.json?.image || '/fallbackImage.jpg'}
                   alt="The downloaded illustration of the provided NFT address."
                 />
               </div>
