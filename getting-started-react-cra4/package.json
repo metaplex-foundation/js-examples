@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@metaplex-foundation/js-next": "^0.7.1",
-    "@solana/web3.js": "^1.39.1",
+    "@metaplex-foundation/js": "0.16.0",
+    "@solana/web3.js": "^1.63.1",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.1.1",
     "@testing-library/user-event": "^13.5.0",

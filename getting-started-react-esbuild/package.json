@@ -11,8 +11,8 @@
   "author": "Apoorv",
   "license": "ISC",
   "dependencies": {
-    "@metaplex-foundation/js": "^0.11.7",
-    "@solana/web3.js": "^1.47.3",
+    "@metaplex-foundation/js": "0.16.0",
+    "@solana/web3.js": "^1.63.1",
     "esbuild": "^0.14.48",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"

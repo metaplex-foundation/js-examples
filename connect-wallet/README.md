@@ -43,11 +43,10 @@ This example has been generated using the following steps:
      const { connection } = useConnection();
      const wallet = useWallet();
 
-     const metaplex = useMemo(() => {
-       return Metaplex.make(connection).use(
-         walletOrGuestIdentity(wallet.connected ? wallet : null),
-       );
-     }, [connection, wallet]);
+     const metaplex = useMemo(
+       () => Metaplex.make(connection).use(walletAdapterIdentity(wallet)),
+       [connection, wallet]
+     );
 
      return (
        <MetaplexContext.Provider value={{ metaplex }}>
@@ -64,21 +63,22 @@ This example has been generated using the following steps:
    The `ShowNFTs` component is responsible for retrieving, picking and showing a random NFT from the connected wallet.
 
    ```js
-   let myNfts = await metaplex
-     .nfts()
-     .findAllByOwner(metaplex.identity().publicKey);
-   let randIdx = Math.floor(Math.random() * myNfts.length);
-   await myNfts[randIdx].metadataTask.run();
-   setNft(myNfts[randIdx]);
+   const myAssets = await metaplex.nfts().findAllByOwner({ owner: metaplex.identity().publicKey }).run();
+
+
+   if(!myAssets.length) {
+     setNft(null);
+     return;
+   }
+
+   const randIdx = Math.floor(Math.random() * myAssets.length);
+   const nft = await metaplex.nfts().load({ metadata: myAssets[randIdx] }).run();
+   setNft(nft);
    ```
 
    As shown here, when the user clicks the refresh button, we fetch all its NFTs and select a random one among them.
 
-   Since the JSON metadata is not loaded automatically we load it by running the following task.
-
-   ```js
-   await myNfts[randIdx].metadataTask.run();
-   ```
+   Since the JSON metadata is not loaded automatically we load it by running the load task.
 
 6. **That's it!** 🎉
    You're now ready to start building your app whilst having access to the user's wallet!
