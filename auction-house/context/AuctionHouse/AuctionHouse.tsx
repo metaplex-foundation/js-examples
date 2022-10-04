@@ -4,6 +4,7 @@ import { AuctionHouseState } from './interface'
 const DEFAULT_CONTEXT = {
   auctionHouse: null,
   handleCreateAuctionHouse: () => Promise.resolve(),
+  isPending: false,
 }
 
 export const AuctionHouseContext =

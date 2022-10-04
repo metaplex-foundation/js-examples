@@ -1,3 +1,4 @@
+import { useBoolean } from '@chakra-ui/react'
 import { AuctionHouse, sol, WRAPPED_SOL_MINT } from '@metaplex-foundation/js'
 import { useWallet } from '@solana/wallet-adapter-react'
 import {
@@ -13,6 +14,7 @@ import { AuctionHouseContext } from './AuctionHouse'
 
 const AuctionHouseProvider: FC<PropsWithChildren> = ({ children }) => {
   const [auctionHouse, setAuctionHouse] = useState<AuctionHouse>()
+  const [isPending, setIsPending] = useBoolean()
 
   const { metaplex } = useMetaplex()
   const wallet = useWallet()
@@ -41,7 +43,9 @@ const AuctionHouseProvider: FC<PropsWithChildren> = ({ children }) => {
   }, [metaplex, client])
 
   const loadUserAuctionHouse = useCallback(async () => {
-    if (client && wallet.publicKey) {
+    if (!auctionHouse && client && wallet.publicKey) {
+      setIsPending.on()
+
       try {
         // Finds and loads user's auction house.
         const userAuctionHouse = await client
@@ -52,8 +56,10 @@ const AuctionHouseProvider: FC<PropsWithChildren> = ({ children }) => {
       } catch {
         // do nothing, user doesn't have AH
       }
+
+      setIsPending.off()
     }
-  }, [client, wallet])
+  }, [auctionHouse, client, wallet, setIsPending])
 
   useEffect(() => {
     loadUserAuctionHouse()
@@ -63,8 +69,9 @@ const AuctionHouseProvider: FC<PropsWithChildren> = ({ children }) => {
     () => ({
       auctionHouse,
       handleCreateAuctionHouse,
+      isPending,
     }),
-    [auctionHouse, handleCreateAuctionHouse]
+    [auctionHouse, handleCreateAuctionHouse, isPending]
   )
 
   return (

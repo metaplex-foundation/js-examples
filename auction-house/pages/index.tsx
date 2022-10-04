@@ -1,44 +1,52 @@
 import { WalletMultiButton } from '@solana/wallet-adapter-react-ui'
 import type { NextPage } from 'next'
-import { Button, Spinner } from '@chakra-ui/react'
+import { Box, Button, Flex, Spinner } from '@chakra-ui/react'
 import { useWallet } from '@solana/wallet-adapter-react'
 
 import { useAuctionHouse } from 'context/AuctionHouse'
-import Footer from 'components/Footer'
+import ItemsList from 'pages/createListing'
 
-import styles from 'styles/Home.module.css'
-import { useAssets } from 'context/Assets'
+import styles from '../styles/Home.module.css'
 
 const Home: NextPage = () => {
   const wallet = useWallet()
-  const { auctionHouse, handleCreateAuctionHouse } = useAuctionHouse()
-  const { isPending: isPendingAssets } = useAssets()
+  const { auctionHouse, handleCreateAuctionHouse, isPending } =
+    useAuctionHouse()
 
-  const shouldShowCreateBtn =
-    wallet.publicKey && !auctionHouse && !isPendingAssets
+  const isWalletLoaded = wallet.publicKey && !isPending
+  const shouldShowCreateBtn = isWalletLoaded && !auctionHouse
+  const shouldShowItems = isWalletLoaded && auctionHouse
 
   return (
-    <div className={styles.container}>
-      <main className={styles.main}>
-        <div className={styles.grid}>
-          {!wallet.publicKey && <WalletMultiButton />}
+    <Box flexGrow={1} position="relative">
+      <Flex
+        minH="100vh"
+        direction="column"
+        maxW="1600px"
+        marginX="auto"
+        flexGrow={1}
+        px={88}
+      >
+        {shouldShowItems && <ItemsList />}
 
-          {shouldShowCreateBtn && (
-            <Button
-              colorScheme="yellow"
-              size="lg"
-              onClick={handleCreateAuctionHouse}
-            >
-              Create Auction House
-            </Button>
-          )}
+        {!shouldShowItems && (
+          <div className={styles.main}>
+            {!wallet.publicKey && <WalletMultiButton />}
 
-          {isPendingAssets && <Spinner size="xl" />}
-        </div>
-      </main>
-
-      <Footer />
-    </div>
+            {shouldShowCreateBtn && (
+              <Button
+                colorScheme="yellow"
+                size="lg"
+                onClick={handleCreateAuctionHouse}
+              >
+                Create Auction House
+              </Button>
+            )}
+            {isPending && <Spinner size="xl" />}
+          </div>
+        )}
+      </Flex>
+    </Box>
   )
 }
 
