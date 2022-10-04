@@ -24,6 +24,8 @@ const ArtworkCard: React.FC<Props> = ({ artwork, children, ...boxProps }) => {
         transform: 'translateY(-2px)',
       }}
       cursor="pointer"
+      borderRadius="xl"
+      backgroundColor="#292929"
     >
       <Box layerStyle="base" p={0}>
         <Box
@@ -51,7 +53,11 @@ const ArtworkCard: React.FC<Props> = ({ artwork, children, ...boxProps }) => {
 
         <Box p={4}>
           <Flex alignItems="center">
-            <Avatar size="2xs" borderRadius="2px" />
+            <Avatar
+              size="2xs"
+              borderRadius="2px"
+              src="https://bit.ly/kent-c-dodds"
+            />
           </Flex>
 
           <Text
@@ -59,6 +65,7 @@ const ArtworkCard: React.FC<Props> = ({ artwork, children, ...boxProps }) => {
             fontSize="2xl"
             fontWeight="bold"
             textTransform="capitalize"
+            color="white"
           >
             {name}
           </Text>

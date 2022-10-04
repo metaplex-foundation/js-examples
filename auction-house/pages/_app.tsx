@@ -15,6 +15,7 @@ import { WalletModalProvider } from '@solana/wallet-adapter-react-ui'
 import { MetaplexProvider } from 'context/Metaplex'
 import { AuctionHouseProvider } from 'context/AuctionHouse'
 import { AssetsProvider } from 'context/Assets'
+import { theme } from 'theme'
 
 const MyApp: FC<AppProps> = ({ Component, pageProps }) => {
   // Can be set to 'devnet', 'testnet', or 'mainnet-beta'
@@ -39,7 +40,7 @@ const MyApp: FC<AppProps> = ({ Component, pageProps }) => {
   )
 
   return (
-    <ChakraProvider>
+    <ChakraProvider theme={theme}>
       <ConnectionProvider endpoint={endpoint}>
         <WalletProvider wallets={wallets} autoConnect>
           <WalletModalProvider>

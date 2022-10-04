@@ -1,5 +1,10 @@
 import { useBoolean } from '@chakra-ui/react'
-import { AuctionHouse, sol, WRAPPED_SOL_MINT } from '@metaplex-foundation/js'
+import {
+  AuctionHouse,
+  sol,
+  WRAPPED_SOL_MINT,
+  Option,
+} from '@metaplex-foundation/js'
 import { useWallet } from '@solana/wallet-adapter-react'
 import {
   FC,
@@ -8,11 +13,26 @@ import {
   useState,
   useCallback,
   useEffect,
+  createContext,
+  useContext,
 } from 'react'
-import { useMetaplex } from '../Metaplex'
-import { AuctionHouseContext } from './AuctionHouse'
+import { useMetaplex } from './Metaplex'
 
-const AuctionHouseProvider: FC<PropsWithChildren> = ({ children }) => {
+interface AuctionHouseState {
+  auctionHouse?: Option<AuctionHouse>
+  handleCreateAuctionHouse(): Promise<void>
+  isPending: boolean
+}
+
+const DEFAULT_CONTEXT = {
+  auctionHouse: null,
+  handleCreateAuctionHouse: () => Promise.resolve(),
+  isPending: false,
+}
+
+const AuctionHouseContext = createContext<AuctionHouseState>(DEFAULT_CONTEXT)
+
+export const AuctionHouseProvider: FC<PropsWithChildren> = ({ children }) => {
   const [auctionHouse, setAuctionHouse] = useState<AuctionHouse>()
   const [isPending, setIsPending] = useBoolean()
 
@@ -81,4 +101,6 @@ const AuctionHouseProvider: FC<PropsWithChildren> = ({ children }) => {
   )
 }
 
-export default AuctionHouseProvider
+export function useAuctionHouse() {
+  return useContext(AuctionHouseContext)
+}
