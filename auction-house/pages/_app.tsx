@@ -15,7 +15,7 @@ import { WalletModalProvider } from '@solana/wallet-adapter-react-ui'
 import { MetaplexProvider } from 'context/Metaplex'
 import { AuctionHouseProvider } from 'context/AuctionHouse'
 import { AssetsProvider } from 'context/Assets'
-import { theme } from 'theme'
+import theme from 'theme'
 
 const MyApp: FC<AppProps> = ({ Component, pageProps }) => {
   // Can be set to 'devnet', 'testnet', or 'mainnet-beta'

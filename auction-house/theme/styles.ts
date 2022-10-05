@@ -1,8 +1,10 @@
-export const styles = {
+const styles = {
   global: {
     body: {
-      bg: "gray.900",
-      color: "white",
+      bg: 'gray.900',
+      color: 'white',
     },
   },
-};
+}
+
+export default styles

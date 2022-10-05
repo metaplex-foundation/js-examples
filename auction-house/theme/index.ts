@@ -1,20 +1,18 @@
-import { extendTheme, ThemeConfig } from "@chakra-ui/react";
+import { extendTheme, ThemeConfig } from '@chakra-ui/react'
 
-import { colors } from "./colors";
-import { components } from "./components";
-import { layerStyles } from "./layerStyles";
-import { shadows } from "./shadows";
-import { styles } from "./styles";
-import { fonts, fontSizes, letterSpacings, lineHeights } from "./typography";
+import colors from './colors'
+import layerStyles from './layerStyles'
+import shadows from './shadows'
+import styles from './styles'
+import { fonts, fontSizes, letterSpacings, lineHeights } from './typography'
 
 const config: ThemeConfig = {
-  initialColorMode: "dark",
+  initialColorMode: 'dark',
   useSystemColorMode: false,
-};
+}
 
-export const theme = extendTheme({
+const theme = extendTheme({
   colors,
-  components,
   config,
   fontSizes,
   fonts,
@@ -23,4 +21,6 @@ export const theme = extendTheme({
   shadows,
   styles,
   layerStyles,
-});
+})
+
+export default theme
