@@ -4,8 +4,8 @@ import { Box, Button, Flex, Spinner } from '@chakra-ui/react'
 import { useWallet } from '@solana/wallet-adapter-react'
 
 import { useAuctionHouse } from 'context/AuctionHouse'
-import ItemsList from 'pages/createListing'
 
+import Link from 'next/link'
 import styles from '../styles/Home.module.css'
 
 const Home: NextPage = () => {
@@ -15,7 +15,7 @@ const Home: NextPage = () => {
 
   const isWalletLoaded = wallet.publicKey && !isPending
   const shouldShowCreateBtn = isWalletLoaded && !auctionHouse
-  const shouldShowItems = isWalletLoaded && auctionHouse
+  const isAuctionHouseLoaded = isWalletLoaded && auctionHouse
 
   return (
     <Box flexGrow={1} position="relative">
@@ -27,15 +27,23 @@ const Home: NextPage = () => {
         flexGrow={1}
         px={88}
       >
-        {shouldShowItems && <ItemsList />}
+        {isAuctionHouseLoaded && (
+          <div className={styles.main}>
+            <Link href="/createListing">
+              <Button colorScheme="purple" size="lg">
+                Create Listing
+              </Button>
+            </Link>
+          </div>
+        )}
 
-        {!shouldShowItems && (
+        {!isAuctionHouseLoaded && (
           <div className={styles.main}>
             {!wallet.publicKey && <WalletMultiButton />}
 
             {shouldShowCreateBtn && (
               <Button
-                colorScheme="yellow"
+                colorScheme="purple"
                 size="lg"
                 onClick={handleCreateAuctionHouse}
               >

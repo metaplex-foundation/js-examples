@@ -1537,10 +1537,10 @@
   resolved "https://registry.yarnpkg.com/@metaplex-foundation/cusper/-/cusper-0.0.2.tgz#dc2032a452d6c269e25f016aa4dd63600e2af975"
   integrity sha512-S9RulC2fFCFOQraz61bij+5YCHhSO9llJegK8c8Y6731fSi6snUSQJdCUqYS8AIgR0TKbQvdvgSyIIdbDFZbBA==
 
-"@metaplex-foundation/js@0.15.0":
-  version "0.15.0"
-  resolved "https://registry.yarnpkg.com/@metaplex-foundation/js/-/js-0.15.0.tgz#0e0165695d101382e377e6b55972b6119db2b8fa"
-  integrity sha512-i+S4Z8fb9HIC+Yyx8Kaeau7jKFv8qIOE5pLsdQx4eGkqrQyxVynRyzP6EMsitkGJ11pHUYvrcmRmTvMYYV8pfQ==
+"@metaplex-foundation/js@0.16.1":
+  version "0.16.1"
+  resolved "https://registry.yarnpkg.com/@metaplex-foundation/js/-/js-0.16.1.tgz#02bec9357c48ca1d07c941534ce38c369a9bb301"
+  integrity sha512-gwmTu6+OE7M1fJMDDcBsgje5YpcZyt/wTjXjnhjna73+2fvqbyjWLa+KYeYF7mneFY7Y+gISq20YwONiYwz/0A==
   dependencies:
     "@bundlr-network/client" "^0.7.14"
     "@metaplex-foundation/beet" "^0.4.0"

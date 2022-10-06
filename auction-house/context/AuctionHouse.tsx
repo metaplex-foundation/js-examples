@@ -4,6 +4,7 @@ import {
   sol,
   WRAPPED_SOL_MINT,
   Option,
+  AuctionHouseClient,
 } from '@metaplex-foundation/js'
 import { useWallet } from '@solana/wallet-adapter-react'
 import {
@@ -20,12 +21,14 @@ import { useMetaplex } from './Metaplex'
 
 interface AuctionHouseState {
   auctionHouse?: Option<AuctionHouse>
+  client?: Option<AuctionHouseClient>
   handleCreateAuctionHouse(): Promise<void>
   isPending: boolean
 }
 
 const DEFAULT_CONTEXT = {
   auctionHouse: null,
+  client: null,
   handleCreateAuctionHouse: () => Promise.resolve(),
   isPending: false,
 }
@@ -39,7 +42,7 @@ export const AuctionHouseProvider: FC<PropsWithChildren> = ({ children }) => {
   const { metaplex } = useMetaplex()
   const wallet = useWallet()
 
-  const client = useMemo(() => metaplex?.auctions(), [metaplex])
+  const client = useMemo(() => metaplex?.auctionHouse(), [metaplex])
 
   const handleCreateAuctionHouse = useCallback(async () => {
     if (!client || !metaplex) {
@@ -48,7 +51,7 @@ export const AuctionHouseProvider: FC<PropsWithChildren> = ({ children }) => {
 
     // Create Auction House.
     const response = await client
-      .createAuctionHouse({
+      .create({
         sellerFeeBasisPoints: 200, // 2% Fee
       })
       .run()
@@ -57,7 +60,7 @@ export const AuctionHouseProvider: FC<PropsWithChildren> = ({ children }) => {
     // It won't work in mainnet, you will need to send SOLs to this account.
     await metaplex
       .rpc()
-      .airdrop(response.auctionHouse.feeAccountAddress, sol(100))
+      .airdrop(response.auctionHouse.feeAccountAddress, sol(1))
 
     setAuctionHouse(response.auctionHouse)
   }, [metaplex, client])
@@ -69,7 +72,10 @@ export const AuctionHouseProvider: FC<PropsWithChildren> = ({ children }) => {
       try {
         // Finds and loads user's auction house.
         const userAuctionHouse = await client
-          .findAuctionHouseByCreatorAndMint(wallet.publicKey, WRAPPED_SOL_MINT)
+          .findByCreatorAndMint({
+            creator: wallet.publicKey,
+            treasuryMint: WRAPPED_SOL_MINT,
+          })
           .run()
 
         setAuctionHouse(userAuctionHouse)
@@ -88,10 +94,11 @@ export const AuctionHouseProvider: FC<PropsWithChildren> = ({ children }) => {
   const value = useMemo(
     () => ({
       auctionHouse,
+      client,
       handleCreateAuctionHouse,
       isPending,
     }),
-    [auctionHouse, handleCreateAuctionHouse, isPending]
+    [auctionHouse, client, handleCreateAuctionHouse, isPending]
   )
 
   return (
