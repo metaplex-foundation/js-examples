@@ -7,6 +7,7 @@ import {
   Heading,
   Input,
   Spinner,
+  useToast,
   VStack,
 } from '@chakra-ui/react'
 import { useAssets } from 'context/Assets'
@@ -15,13 +16,19 @@ import { LoadMetadataOutput, sol } from '@metaplex-foundation/js'
 import ArtworkCard from 'components/ArtworkCard'
 import { useAuctionHouse } from 'context/AuctionHouse'
 import { useMetaplex } from 'context/Metaplex'
+import { useRouter } from 'next/router'
 
 const ItemsList: React.FC = () => {
-  const { assets, loadUserAssets } = useAssets()
-  const [selectedAsset, setSelectedAsset] = useState<LoadMetadataOutput>()
-  const [price, setPrice] = useState<number>()
+  const { assets, loadUserAssets, isPending: isPendingAssets } = useAssets()
   const { metaplex } = useMetaplex()
   const { auctionHouse, isPending } = useAuctionHouse()
+  const toast = useToast()
+  const router = useRouter()
+
+  const [selectedAsset, setSelectedAsset] = useState<LoadMetadataOutput>()
+  const [price, setPrice] = useState<number>()
+
+  const isLoading = isPendingAssets || isPending
 
   const handleCreateListing = useCallback(async () => {
     if (
@@ -48,7 +55,17 @@ const ItemsList: React.FC = () => {
         },
       })
       .run()
-  }, [metaplex, auctionHouse, selectedAsset, price])
+
+    toast({
+      title: 'Listing created.',
+      description: "We've created your listing.",
+      status: 'success',
+      duration: 9000,
+      isClosable: true,
+    })
+
+    router.push('/')
+  }, [router, metaplex, auctionHouse, selectedAsset, price, toast])
 
   const handleSetPrice = useCallback((event: ChangeEvent<HTMLInputElement>) => {
     setPrice(Number(event.target.value))
@@ -74,9 +91,15 @@ const ItemsList: React.FC = () => {
           </Flex>
         </VStack>
 
-        {isPending && <Spinner size="xl" />}
+        {isLoading && (
+          <VStack spacing={4} p={3} align="stretch" mb={5}>
+            <Flex justifyContent="center">
+              <Spinner size="xl" />
+            </Flex>
+          </VStack>
+        )}
 
-        {selectedAsset && (
+        {!isLoading && selectedAsset && (
           <Flex align="center" flexDirection="column">
             <Box w="320px">
               <ArtworkCard
@@ -87,6 +110,7 @@ const ItemsList: React.FC = () => {
               <Input
                 placeholder="Enter a listing price in SOL"
                 mt={5}
+                value={price}
                 onChange={handleSetPrice}
               />
 
@@ -96,6 +120,7 @@ const ItemsList: React.FC = () => {
                 mt={5}
                 w="100%"
                 onClick={handleCreateListing}
+                disabled={price === null || price === undefined}
               >
                 List
               </Button>
@@ -103,7 +128,7 @@ const ItemsList: React.FC = () => {
           </Flex>
         )}
 
-        {!selectedAsset && (
+        {!isLoading && !selectedAsset && (
           <Grid templateColumns="repeat(4, 1fr)" gap={6}>
             {assets?.map((asset) => (
               <ArtworkCard
