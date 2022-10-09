@@ -18,13 +18,15 @@ import { useAuctionHouse } from 'context/AuctionHouse'
 import { useMetaplex } from 'context/Metaplex'
 import { useRouter } from 'next/router'
 
-const CreateListing: React.FC = () => {
+const Listings: React.FC = () => {
+  // Load listings here via the new hook
   const { assets, loadUserAssets, isPending: isPendingAssets } = useAssets()
   const { metaplex } = useMetaplex()
   const { auctionHouse, isPending } = useAuctionHouse()
   const toast = useToast()
   const router = useRouter()
 
+  // Select listing here
   const [selectedAsset, setSelectedAsset] = useState<LoadMetadataOutput>()
   const [price, setPrice] = useState<number>()
 
@@ -144,4 +146,4 @@ const CreateListing: React.FC = () => {
   )
 }
 
-export default CreateListing
+export default Listings
