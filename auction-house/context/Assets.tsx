@@ -1,10 +1,6 @@
-import { Option, isMetadata, LoadMetadataOutput } from '@metaplex-foundation/js'
+import { isMetadata, LoadMetadataOutput } from '@metaplex-foundation/js'
 import { useWallet } from '@solana/wallet-adapter-react'
 import {
-  createContext,
-  FC,
-  PropsWithChildren,
-  useContext,
   useMemo,
   useState,
   useCallback,
@@ -12,21 +8,7 @@ import {
 import { useBoolean } from '@chakra-ui/react'
 import { useMetaplex } from './Metaplex'
 
-const DEFAULT_CONTEXT = {
-  assets: null,
-  isPending: false,
-  loadUserAssets: () => Promise.resolve(),
-}
-
-type AssetsState = {
-  assets?: Option<LoadMetadataOutput[]>
-  isPending: boolean
-  loadUserAssets(): Promise<void>
-}
-
-export const AssetsContext = createContext<AssetsState>(DEFAULT_CONTEXT)
-
-export const AssetsProvider: FC<PropsWithChildren> = ({ children }) => {
+export const useAssets = () => {
   const [assets, setAssets] = useState<LoadMetadataOutput[]>()
   const [isPending, setIsPending] = useBoolean()
 
@@ -66,7 +48,7 @@ export const AssetsProvider: FC<PropsWithChildren> = ({ children }) => {
     }
   }, [client, wallet, setIsPending])
 
-  const value = useMemo(
+  return  useMemo(
     () => ({
       assets,
       isPending,
@@ -74,12 +56,4 @@ export const AssetsProvider: FC<PropsWithChildren> = ({ children }) => {
     }),
     [assets, isPending, loadUserAssets]
   )
-
-  return (
-    <AssetsContext.Provider value={value}>{children}</AssetsContext.Provider>
-  )
-}
-
-export function useAssets() {
-  return useContext(AssetsContext)
 }

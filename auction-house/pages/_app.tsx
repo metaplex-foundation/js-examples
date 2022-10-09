@@ -14,7 +14,6 @@ import { WalletModalProvider } from '@solana/wallet-adapter-react-ui'
 
 import { MetaplexProvider } from 'context/Metaplex'
 import { AuctionHouseProvider } from 'context/AuctionHouse'
-import { AssetsProvider } from 'context/Assets'
 import theme from 'theme'
 
 const MyApp: FC<AppProps> = ({ Component, pageProps }) => {
@@ -46,9 +45,7 @@ const MyApp: FC<AppProps> = ({ Component, pageProps }) => {
           <WalletModalProvider>
             <MetaplexProvider>
               <AuctionHouseProvider>
-                <AssetsProvider>
                   <Component {...pageProps} />
-                </AssetsProvider>
               </AuctionHouseProvider>
             </MetaplexProvider>
           </WalletModalProvider>
