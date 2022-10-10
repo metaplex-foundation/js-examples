@@ -4,7 +4,7 @@ import {
   Button,
   Flex,
   Grid,
-  Heading,
+  Heading, Input,
   Spinner,
   Text,
   useToast,
@@ -19,6 +19,7 @@ import { useRouter } from 'next/router'
 import { useWallet } from '@solana/wallet-adapter-react'
 
 import useListings from 'hooks/useListings'
+import {PublicKey} from "@solana/web3.js";
 
 const Listings: React.FC = () => {
   const { listings, loadListings, isPending: isPendingListings } = useListings()
@@ -29,6 +30,7 @@ const Listings: React.FC = () => {
   const router = useRouter()
 
   const [selectedListing, setSelectedListings] = useState<Listing>()
+  const [sellerAddress, setSellerAddress] = useState<PublicKey>()
 
   const isLoading = isPendingListings || isPending
 
@@ -49,7 +51,6 @@ const Listings: React.FC = () => {
         auctionHouse,
         listing: selectedListing,
       })
-      .run()
 
     toast({
       title: 'Sale was executed.',
@@ -69,11 +70,36 @@ const Listings: React.FC = () => {
   }
 
   useEffect(() => {
-    loadListings()
+    loadListings(sellerAddress)
   }, [loadListings])
 
   return (
     <Box flexGrow={1} position="relative">
+      <Flex align="center" flexDirection="row" justifyContent="center">
+        <Box w="320px">
+          <Input
+              placeholder="Enter a seller address"
+              mt={5}
+              value={sellerAddress ? sellerAddress.toBase58() : ''}
+              onChange={(e) => {
+                e.preventDefault()
+                setSellerAddress(new PublicKey(e.target.value))
+              }}
+          />
+        </Box>
+        <Box marginLeft="6px">
+          <Button
+              colorScheme="purple"
+              size="md"
+              mt={5}
+              w="100%"
+              onClick={() => loadListings(sellerAddress)}
+              disabled={!sellerAddress}
+          >
+            Fetch Listings
+          </Button>
+        </Box>
+      </Flex>
       <Flex
         minH="100vh"
         direction="column"

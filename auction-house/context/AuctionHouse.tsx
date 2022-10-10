@@ -58,7 +58,6 @@ export const AuctionHouseProvider: FC<PropsWithChildren> = ({ children }) => {
       .create({
         sellerFeeBasisPoints: 200, // 2% Fee
       })
-      .run()
 
     // Airdrop SOL to AH Fee account.
     // It won't work in mainnet, you will need to send SOLs to this account.
@@ -81,7 +80,6 @@ export const AuctionHouseProvider: FC<PropsWithChildren> = ({ children }) => {
             creator: toPublicKey(DEFAULT_AH_OWNER),
             treasuryMint: WRAPPED_SOL_MINT,
           })
-          .run()
 
         setAuctionHouse(userAuctionHouse)
       } catch {

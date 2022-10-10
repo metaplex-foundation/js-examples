@@ -51,7 +51,6 @@ const CreateListing: React.FC = () => {
         mintAccount,
         price: listingPrice,
       })
-      .run()
 
     toast({
       title: 'Listing created.',

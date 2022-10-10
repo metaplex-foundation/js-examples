@@ -21,7 +21,6 @@ const useAssets = () => {
         // Finds and loads user's assets.
         const userAssetsMetadata = await client
           .findAllByOwner({ owner: wallet.publicKey })
-          .run()
 
         if (!userAssetsMetadata) {
           return
@@ -30,7 +29,7 @@ const useAssets = () => {
         const promises: Promise<LoadMetadataOutput>[] = []
         userAssetsMetadata.forEach((metadata) => {
           if (isMetadata(metadata)) {
-            promises.push(client.load({ metadata }).run())
+            promises.push(client.load({ metadata }))
           }
         })
 

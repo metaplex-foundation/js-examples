@@ -1,15 +1,10 @@
-import {
-  AuctionHouseProgram,
-  LazyListing,
-  Listing,
-  toLazyListing,
-  toListingReceiptAccount,
-} from '@metaplex-foundation/js'
-import { useCallback, useMemo, useState } from 'react'
-import { useBoolean } from '@chakra-ui/react'
+import {Listing,} from '@metaplex-foundation/js'
+import {useCallback, useMemo, useState} from 'react'
+import {useBoolean} from '@chakra-ui/react'
 
-import { useMetaplex } from '../context/Metaplex'
-import { useAuctionHouse } from '../context/AuctionHouse'
+import {PublicKey} from "@solana/web3.js";
+import {useMetaplex} from '../context/Metaplex'
+import {useAuctionHouse} from '../context/AuctionHouse'
 
 const useListings = () => {
   const [listings, setListings] = useState<Listing[]>()
@@ -20,19 +15,14 @@ const useListings = () => {
 
   const client = useMemo(() => metaplex?.auctionHouse(), [metaplex])
 
-  const loadListings = useCallback(async () => {
-    if (client && metaplex && auctionHouse) {
+  const loadListings = useCallback(async (seller?: PublicKey) => {
+    if (seller && client && metaplex && auctionHouse) {
       try {
         setIsPending.on()
 
-        const listingQuery = AuctionHouseProgram.listingAccounts(
-          metaplex
-        ).whereAuctionHouse(auctionHouse.address)
-
-        const lazyListings: (Listing | LazyListing)[] =
-          await listingQuery.getAndMap((account) =>
-            toLazyListing(toListingReceiptAccount(account), auctionHouse)
-          )
+        // Finds and loads seller's listings.
+        const lazyListings = await client
+            .findListingsBy({type: 'seller', auctionHouse, publicKey: seller})
 
         if (!lazyListings) {
           return
@@ -43,7 +33,7 @@ const useListings = () => {
           lazyListings.map((listing) =>
             !listing.lazy
               ? Promise.resolve(listing)
-              : client.loadListing({ lazyListing: listing }).run()
+              : client.loadListing({ lazyListing: listing })
           )
         )
 
