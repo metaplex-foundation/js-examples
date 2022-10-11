@@ -11,7 +11,7 @@ function App() {
   const [nft, setNft] = useState(null);
 
   const fetchNft = async () => {
-    const asset = await mx.nfts().findByMint({ mintAddress: new PublicKey(address) }).run();
+    const asset = await mx.nfts().findByMint({ mintAddress: new PublicKey(address) });
 
     setNft(asset);
   };

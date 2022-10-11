@@ -22,7 +22,7 @@ export default function Home() {
     try {
       setLoading(true);
       setCurrentView(null);
-      const list = await mx.nfts().findAllByOwner({ owner: new PublicKey(address)}).run();
+      const list = await mx.nfts().findAllByOwner({ owner: new PublicKey(address)});
       setNftList(list);
       setCurrentPage(1);
     } catch (e) {
