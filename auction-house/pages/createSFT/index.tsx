@@ -41,7 +41,7 @@ const CreateSFT: React.FC = () => {
       uri,
       name: 'On-chain SFT name',
       sellerFeeBasisPoints: 200,
-      tokenAmount: token(12)
+      tokenAmount: token(tokenAmount)
     });
 
     toast({
