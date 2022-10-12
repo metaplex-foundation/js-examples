@@ -57,7 +57,7 @@ export const AuctionHouseProvider: FC<PropsWithChildren> = ({ children }) => {
     const response = await client
       .create({
         sellerFeeBasisPoints: 200, // 2% Fee
-      })
+      }, {confirmOptions: { skipPreflight: true}})
 
     // Airdrop SOL to AH Fee account.
     // It won't work in mainnet, you will need to send SOLs to this account.
