@@ -7,15 +7,15 @@ import {
   useToast,
   VStack,
 } from '@chakra-ui/react'
-import { token} from '@metaplex-foundation/js'
+import { token, toMetaplexFileFromBrowser } from '@metaplex-foundation/js'
 import { useRouter } from 'next/router'
 
 import { useAuctionHouse } from 'context/AuctionHouse'
 import { useMetaplex } from 'context/Metaplex'
 
 const CreateSFT: React.FC = () => {
-  const [image, setImage] = useState('');
-  const [tokenAmount, setTokenAmount] = useState<number>();
+  const [image, setImage] = useState<File>();
+  const [tokenAmount, setTokenAmount] = useState<number>(0);
   const { metaplex } = useMetaplex()
   const { auctionHouse } = useAuctionHouse()
   const toast = useToast()
@@ -31,10 +31,12 @@ const CreateSFT: React.FC = () => {
       return
     }
 
+    let metaplexFile = await toMetaplexFileFromBrowser(image);
+
     const { uri } = await metaplex.nfts().uploadMetadata({
       name: 'SFT name',
       description: 'SFT description',
-      image: image
+      image: metaplexFile
     })
 
     await metaplex.nfts().createSft({
@@ -53,7 +55,7 @@ const CreateSFT: React.FC = () => {
     })
 
     router.push('/')
-  }, [router, metaplex, auctionHouse, toast])
+  }, [router, metaplex, auctionHouse, toast, image, tokenAmount])
 
   const handleTokenAmountChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
     setTokenAmount(Number(event.target.value))
@@ -78,7 +80,7 @@ const CreateSFT: React.FC = () => {
 
         <Flex align="start" flexDirection="column">
           <Heading size="md">Choose Image: </Heading>
-          <input type="file" onChange={(e) => e.target.files && setImage(URL.createObjectURL(e.target.files[0]))} />
+          <input type="file" onChange={(e) => e.target.files && setImage(e.target.files[0])} />
         </Flex>
         {image && (
           <Flex align="center" flexDirection="column">
@@ -89,7 +91,7 @@ const CreateSFT: React.FC = () => {
                     zIndex: -1,
                     filter: 'none',
                   }}
-                  src={image}
+                  src={URL.createObjectURL(image)}
                   objectFit="cover"
                   w="full"
                   h="360px"

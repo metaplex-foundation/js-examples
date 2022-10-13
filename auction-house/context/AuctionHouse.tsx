@@ -77,7 +77,7 @@ export const AuctionHouseProvider: FC<PropsWithChildren> = ({ children }) => {
         const userAuctionHouse = await client
           .findByCreatorAndMint({
             // creator: wallet.publicKey,
-            creator: toPublicKey(DEFAULT_AH_OWNER),
+            creator: toPublicKey(wallet.publicKey),
             treasuryMint: WRAPPED_SOL_MINT,
           })
 
