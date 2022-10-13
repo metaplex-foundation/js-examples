@@ -38,7 +38,8 @@ const Home: NextPage = () => {
               <Button colorScheme="purple" size="lg">
                 Create SFT
               </Button>
-            </Link><Link href="/listings">
+            </Link>
+              <Link href="/listings">
               <Button colorScheme="purple" size="lg">
                 Show Listings
               </Button>

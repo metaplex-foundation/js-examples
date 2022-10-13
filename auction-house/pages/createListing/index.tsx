@@ -10,7 +10,7 @@ import {
   useToast,
   VStack,
 } from '@chakra-ui/react'
-import { LoadMetadataOutput, sol } from '@metaplex-foundation/js'
+import {isSft, LoadMetadataOutput, sol} from '@metaplex-foundation/js'
 import { useRouter } from 'next/router'
 
 import ArtworkCard from 'components/ArtworkCard'
@@ -27,6 +27,7 @@ const CreateListing: React.FC = () => {
 
   const [selectedAsset, setSelectedAsset] = useState<LoadMetadataOutput>()
   const [price, setPrice] = useState<number>()
+  const [tokenAmount, setTokenAmount] = useState<number>()
 
   const isLoading = isPendingAssets || isPending
 
@@ -67,6 +68,10 @@ const CreateListing: React.FC = () => {
     setPrice(Number(event.target.value))
   }, [])
 
+  const handleSetTokenAmount = useCallback((event: ChangeEvent<HTMLInputElement>) => {
+    setTokenAmount(Number(event.target.value))
+  }, [])
+
   useEffect(() => {
     loadUserAssets()
   }, [loadUserAssets])
@@ -102,6 +107,13 @@ const CreateListing: React.FC = () => {
                 artwork={selectedAsset}
                 key={selectedAsset.address.toBase58()}
               />
+
+              { isSft(selectedAsset) && <Input
+                placeholder="Enter amount of tokens to sale"
+                mt={5}
+                value={tokenAmount}
+                onChange={handleSetTokenAmount}
+              /> }
 
               <Input
                 placeholder="Enter a listing price in SOL"

@@ -1,5 +1,5 @@
 import { Image, Avatar, Box, BoxProps, Flex, Text } from '@chakra-ui/react'
-import { LoadMetadataOutput } from '@metaplex-foundation/js'
+import {isSft, LoadMetadataOutput} from '@metaplex-foundation/js'
 import React from 'react'
 
 interface Props extends BoxProps {
@@ -9,6 +9,7 @@ interface Props extends BoxProps {
 const ArtworkCard: React.FC<Props> = ({ artwork, children, ...boxProps }) => {
   const { name } = artwork
   const imageSrc = artwork.json?.image
+  const tokenType = isSft(artwork) ? 'SFT' : 'NFT';
 
   return (
     <Box
@@ -60,6 +61,7 @@ const ArtworkCard: React.FC<Props> = ({ artwork, children, ...boxProps }) => {
             />
           </Flex>
 
+          <Flex flexDirection="row" justifyContent="space-between">
           <Text
             mt={4}
             fontSize="2xl"
@@ -69,6 +71,17 @@ const ArtworkCard: React.FC<Props> = ({ artwork, children, ...boxProps }) => {
           >
             {name}
           </Text>
+
+          <Text
+              mt={4}
+              fontSize="2xl"
+              fontWeight="bold"
+              textTransform="capitalize"
+              color="white"
+          >
+            { tokenType }
+          </Text>
+          </Flex>
         </Box>
       </Box>
       {children}
