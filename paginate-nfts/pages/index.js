@@ -22,7 +22,7 @@ export default function Home() {
     try {
       setLoading(true);
       setCurrentView(null);
-      const list = await mx.nfts().findAllByOwner({ owner: new PublicKey(address)}).run();
+      const list = await mx.nfts().findAllByOwner({ owner: new PublicKey(address)});
       setNftList(list);
       setCurrentPage(1);
     } catch (e) {
@@ -50,7 +50,7 @@ export default function Home() {
   const loadData = async (startIndex, endIndex) => {
     const nftsToLoad = nftList.filter((_, index) => (index >= startIndex && index < endIndex))
 
-    const promises = nftsToLoad.map((metadata) => mx.nfts().load({ metadata }).run());
+    const promises = nftsToLoad.map((metadata) => mx.nfts().load({ metadata }));
     return Promise.all(promises);
   };
 
