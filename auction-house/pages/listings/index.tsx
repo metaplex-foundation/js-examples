@@ -10,7 +10,7 @@ import {
   useToast,
   VStack,
 } from '@chakra-ui/react'
-import { Listing } from '@metaplex-foundation/js'
+import {isSft, token, Listing} from '@metaplex-foundation/js'
 import { PublicKey } from '@solana/web3.js'
 import { NextPage } from 'next'
 import { useRouter } from 'next/router'
@@ -33,6 +33,8 @@ const Listings: NextPage = () => {
 
   const [selectedListing, setSelectedListings] = useState<Listing>()
   const [sellerAddress, setSellerAddress] = useState<PublicKey>()
+  const [tokenAmount, setTokenAmount] = useState<number>()
+  const isSftSelected = isSft(selectedListing?.asset);
 
   const isLoading = isPendingListings || isPending
 
@@ -52,10 +54,28 @@ const Listings: NextPage = () => {
       return
     }
 
-    await metaplex.auctionHouse().buy({
-      auctionHouse,
-      listing: selectedListing,
-    })
+    if(isSftSelected) {
+      if(!tokenAmount)
+        return;
+
+      const { bid } = await metaplex.auctionHouse().bid({
+        auctionHouse,
+        mintAccount: selectedListing.asset.address,
+        price: selectedListing.price,
+        tokens: token(tokenAmount)
+      });
+
+      await metaplex.auctionHouse().executeSale({
+        auctionHouse,
+        listing: selectedListing,
+        bid,
+      });
+    } else {
+      await metaplex.auctionHouse().buy({
+        auctionHouse,
+        listing: selectedListing,
+      })
+    }
 
     toast({
       title: 'Sale was executed.',
@@ -67,6 +87,13 @@ const Listings: NextPage = () => {
 
     router.push('/')
   }, [wallet, router, metaplex, auctionHouse, selectedListing, toast])
+
+  const handleSetTokenAmount = useCallback(
+      (event: ChangeEvent<HTMLInputElement>) => {
+        setTokenAmount(Number(event.target.value))
+      },
+      []
+  )
 
   return (
     <Box flexGrow={1} position="relative">
@@ -121,13 +148,22 @@ const Listings: NextPage = () => {
                 artwork={selectedListing.asset}
                 listing={selectedListing}
                 key={selectedListing.asset.address.toBase58()}
-              />
+              >
 
+              </ArtworkCard>
+              {isSftSelected &&
+              <Input
+                  placeholder="Enter amount of tokens to buy"
+                  mt={5}
+                  value={tokenAmount}
+                  onChange={handleSetTokenAmount}
+              />}
               <Button
                 colorScheme="purple"
                 size="lg"
                 mt={5}
                 w="100%"
+                disabled={isSftSelected && !tokenAmount}
                 onClick={handleExecuteSale}
               >
                 Buy
