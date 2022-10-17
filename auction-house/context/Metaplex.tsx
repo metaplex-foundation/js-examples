@@ -2,6 +2,8 @@ import {
   walletAdapterIdentity,
   Metaplex,
   Option,
+  bundlrStorage,
+  IdentitySigner,
 } from '@metaplex-foundation/js'
 import { useConnection, useWallet } from '@solana/wallet-adapter-react'
 import {
@@ -27,7 +29,14 @@ export const MetaplexProvider: FC<PropsWithChildren> = ({ children }) => {
   const wallet = useWallet()
 
   const metaplex = useMemo(
-    () => Metaplex.make(connection).use(walletAdapterIdentity(wallet)),
+    () =>
+      Metaplex.make(connection)
+        .use(walletAdapterIdentity(wallet))
+        .use(
+          bundlrStorage({
+            address: 'https://devnet.bundlr.network',
+          })
+        ),
     [connection, wallet]
   )
 
