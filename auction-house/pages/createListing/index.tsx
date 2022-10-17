@@ -10,7 +10,7 @@ import {
   useToast,
   VStack,
 } from '@chakra-ui/react'
-import {isSft, LoadMetadataOutput, sol} from '@metaplex-foundation/js'
+import { isSft, LoadMetadataOutput, sol } from '@metaplex-foundation/js'
 import { useRouter } from 'next/router'
 
 import ArtworkCard from 'components/ArtworkCard'
@@ -45,13 +45,11 @@ const CreateListing: React.FC = () => {
     const mintAccount = selectedAsset.address
     const listingPrice = sol(price)
 
-    await metaplex
-      .auctionHouse()
-      .list({
-        auctionHouse,
-        mintAccount,
-        price: listingPrice,
-      })
+    await metaplex.auctionHouse().list({
+      auctionHouse,
+      mintAccount,
+      price: listingPrice,
+    })
 
     toast({
       title: 'Listing created.',
@@ -68,9 +66,12 @@ const CreateListing: React.FC = () => {
     setPrice(Number(event.target.value))
   }, [])
 
-  const handleSetTokenAmount = useCallback((event: ChangeEvent<HTMLInputElement>) => {
-    setTokenAmount(Number(event.target.value))
-  }, [])
+  const handleSetTokenAmount = useCallback(
+    (event: ChangeEvent<HTMLInputElement>) => {
+      setTokenAmount(Number(event.target.value))
+    },
+    []
+  )
 
   useEffect(() => {
     loadUserAssets()
@@ -108,12 +109,14 @@ const CreateListing: React.FC = () => {
                 key={selectedAsset.address.toBase58()}
               />
 
-              { isSft(selectedAsset) && <Input
-                placeholder="Enter amount of tokens to sale"
-                mt={5}
-                value={tokenAmount}
-                onChange={handleSetTokenAmount}
-              /> }
+              {isSft(selectedAsset) && (
+                <Input
+                  placeholder="Enter amount of tokens to sale"
+                  mt={5}
+                  value={tokenAmount}
+                  onChange={handleSetTokenAmount}
+                />
+              )}
 
               <Input
                 placeholder="Enter a listing price in SOL"

@@ -1,15 +1,23 @@
 import { Image, Avatar, Box, BoxProps, Flex, Text } from '@chakra-ui/react'
-import {isSft, LoadMetadataOutput} from '@metaplex-foundation/js'
+import { isSft, Listing, LoadMetadataOutput } from '@metaplex-foundation/js'
 import React from 'react'
+
+import formatPrice from 'utils/formatPrice'
 
 interface Props extends BoxProps {
   artwork: LoadMetadataOutput
+  listing?: Listing
 }
 
-const ArtworkCard: React.FC<Props> = ({ artwork, children, ...boxProps }) => {
+const ArtworkCard: React.FC<Props> = ({
+  artwork,
+  listing,
+  children,
+  ...boxProps
+}) => {
   const { name } = artwork
   const imageSrc = artwork.json?.image
-  const tokenType = isSft(artwork) ? 'SFT' : 'NFT';
+  const tokenType = isSft(artwork) ? 'SFT' : 'NFT'
 
   return (
     <Box
@@ -62,29 +70,42 @@ const ArtworkCard: React.FC<Props> = ({ artwork, children, ...boxProps }) => {
           </Flex>
 
           <Flex flexDirection="row" justifyContent="space-between">
-          <Text
-            mt={4}
-            fontSize="2xl"
-            fontWeight="bold"
-            textTransform="capitalize"
-            color="white"
-          >
-            {name}
-          </Text>
-
-          <Text
+            <Text
               mt={4}
               fontSize="2xl"
               fontWeight="bold"
               textTransform="capitalize"
               color="white"
-          >
-            { tokenType }
-          </Text>
+            >
+              {name}
+            </Text>
+
+            <Text
+              mt={4}
+              fontSize="2xl"
+              fontWeight="bold"
+              textTransform="capitalize"
+              color="white"
+            >
+              {tokenType}
+            </Text>
           </Flex>
         </Box>
       </Box>
-      {children}
+
+      {listing && (
+        <Text
+          mt={4}
+          fontSize="2xl"
+          fontWeight="bold"
+          textTransform="capitalize"
+          textAlign="start"
+          padding="2px 10px 10px 5px"
+          color="white"
+        >
+          {formatPrice(listing)}
+        </Text>
+      )}
     </Box>
   )
 }

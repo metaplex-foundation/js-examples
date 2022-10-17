@@ -1,9 +1,11 @@
-import React, {ChangeEvent, useCallback, useState} from 'react'
+import React, { ChangeEvent, useCallback, useState } from 'react'
 import {
   Box,
   Button,
   Flex,
-  Heading, Image, Input,
+  Heading,
+  Image,
+  Input,
   useToast,
   VStack,
 } from '@chakra-ui/react'
@@ -14,37 +16,32 @@ import { useAuctionHouse } from 'context/AuctionHouse'
 import { useMetaplex } from 'context/Metaplex'
 
 const CreateSFT: React.FC = () => {
-  const [image, setImage] = useState<File>();
-  const [tokenAmount, setTokenAmount] = useState<number>(0);
+  const [image, setImage] = useState<File>()
+  const [tokenAmount, setTokenAmount] = useState<number>(0)
   const { metaplex } = useMetaplex()
   const { auctionHouse } = useAuctionHouse()
   const toast = useToast()
   const router = useRouter()
 
   const handleCreateSFT = useCallback(async () => {
-    if (
-      !auctionHouse ||
-      !metaplex ||
-      !image ||
-      !tokenAmount
-    ) {
+    if (!auctionHouse || !metaplex || !image || !tokenAmount) {
       return
     }
 
-    let metaplexFile = await toMetaplexFileFromBrowser(image);
+    const metaplexFile = await toMetaplexFileFromBrowser(image)
 
     const { uri } = await metaplex.nfts().uploadMetadata({
       name: 'SFT name',
       description: 'SFT description',
-      image: metaplexFile
+      image: metaplexFile,
     })
 
     await metaplex.nfts().createSft({
       uri,
       name: 'On-chain SFT name',
       sellerFeeBasisPoints: 200,
-      tokenAmount: token(tokenAmount)
-    });
+      tokenAmount: token(tokenAmount),
+    })
 
     toast({
       title: 'SFT created.',
@@ -57,13 +54,15 @@ const CreateSFT: React.FC = () => {
     router.push('/')
   }, [router, metaplex, auctionHouse, toast, image, tokenAmount])
 
-  const handleTokenAmountChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
-    setTokenAmount(Number(event.target.value))
-  }, [])
+  const handleTokenAmountChange = useCallback(
+    (event: ChangeEvent<HTMLInputElement>) => {
+      setTokenAmount(Number(event.target.value))
+    },
+    []
+  )
 
   return (
     <Box flexGrow={1} position="relative">
-
       <Flex
         minH="100vh"
         direction="column"
@@ -80,45 +79,47 @@ const CreateSFT: React.FC = () => {
 
         <Flex align="start" flexDirection="column">
           <Heading size="md">Choose Image: </Heading>
-          <input type="file" onChange={(e) => e.target.files && setImage(e.target.files[0])} />
+          <input
+            type="file"
+            onChange={(e) => e.target.files && setImage(e.target.files[0])}
+          />
         </Flex>
         {image && (
           <Flex align="center" flexDirection="column">
             <Box w="320px">
               <Image
-                  pos="relative"
-                  _groupHover={{
-                    zIndex: -1,
-                    filter: 'none',
-                  }}
-                  src={URL.createObjectURL(image)}
-                  objectFit="cover"
-                  w="full"
-                  h="360px"
-                  filter="drop-shadow(0px 0px 24px rgba(0, 0, 0, 0.2))"
-                  borderRadius="xl"
-                  alt="NFT"
+                pos="relative"
+                _groupHover={{
+                  zIndex: -1,
+                  filter: 'none',
+                }}
+                src={URL.createObjectURL(image)}
+                objectFit="cover"
+                w="full"
+                h="360px"
+                filter="drop-shadow(0px 0px 24px rgba(0, 0, 0, 0.2))"
+                borderRadius="xl"
+                alt="NFT"
               />
               <Input
-                  placeholder="Enter token amount"
-                  mt={5}
-                  value={tokenAmount}
-                  onChange={handleTokenAmountChange}
+                placeholder="Enter token amount"
+                mt={5}
+                value={tokenAmount}
+                onChange={handleTokenAmountChange}
               />
               <Button
-                  colorScheme="purple"
-                  size="lg"
-                  mt={5}
-                  w="100%"
-                  onClick={handleCreateSFT}
-                  disabled={!image || !tokenAmount}
+                colorScheme="purple"
+                size="lg"
+                mt={5}
+                w="100%"
+                onClick={handleCreateSFT}
+                disabled={!image || !tokenAmount}
               >
                 Create SFT
               </Button>
             </Box>
           </Flex>
         )}
-
       </Flex>
     </Box>
   )

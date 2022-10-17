@@ -45,7 +45,7 @@ const MyApp: FC<AppProps> = ({ Component, pageProps }) => {
           <WalletModalProvider>
             <MetaplexProvider>
               <AuctionHouseProvider>
-                  <Component {...pageProps} />
+                <Component {...pageProps} />
               </AuctionHouseProvider>
             </MetaplexProvider>
           </WalletModalProvider>

@@ -1,38 +1,45 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { ChangeEvent, useCallback, useState } from 'react'
 import {
   Box,
   Button,
   Flex,
   Grid,
-  Heading, Input,
+  Heading,
+  Input,
   Spinner,
-  Text,
   useToast,
   VStack,
 } from '@chakra-ui/react'
-import { formatAmount, lamports, Listing } from '@metaplex-foundation/js'
+import { Listing } from '@metaplex-foundation/js'
+import { PublicKey } from '@solana/web3.js'
+import { NextPage } from 'next'
+import { useRouter } from 'next/router'
+import { useWallet } from '@solana/wallet-adapter-react'
 
 import ArtworkCard from 'components/ArtworkCard'
 import { useAuctionHouse } from 'context/AuctionHouse'
 import { useMetaplex } from 'context/Metaplex'
-import { useRouter } from 'next/router'
-import { useWallet } from '@solana/wallet-adapter-react'
 
 import useListings from 'hooks/useListings'
-import {PublicKey} from "@solana/web3.js";
 
-const Listings: React.FC = () => {
-  const { listings, loadListings, isPending: isPendingListings } = useListings()
+const Listings: NextPage = () => {
   const wallet = useWallet()
-  const { metaplex } = useMetaplex()
-  const { auctionHouse, isPending } = useAuctionHouse()
   const toast = useToast()
   const router = useRouter()
+
+  const { listings, loadListings, isPending: isPendingListings } = useListings()
+  const { metaplex } = useMetaplex()
+  const { auctionHouse, isPending } = useAuctionHouse()
 
   const [selectedListing, setSelectedListings] = useState<Listing>()
   const [sellerAddress, setSellerAddress] = useState<PublicKey>()
 
   const isLoading = isPendingListings || isPending
+
+  const handleSellerChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault()
+    setSellerAddress(new PublicKey(e.target.value))
+  }, [])
 
   const handleExecuteSale = useCallback(async () => {
     if (
@@ -45,12 +52,10 @@ const Listings: React.FC = () => {
       return
     }
 
-    await metaplex
-      .auctionHouse()
-      .buy({
-        auctionHouse,
-        listing: selectedListing,
-      })
+    await metaplex.auctionHouse().buy({
+      auctionHouse,
+      listing: selectedListing,
+    })
 
     toast({
       title: 'Sale was executed.',
@@ -63,38 +68,25 @@ const Listings: React.FC = () => {
     router.push('/')
   }, [wallet, router, metaplex, auctionHouse, selectedListing, toast])
 
-  const formatPrice = (listing: Listing) => {
-    const basisAmount = lamports(listing.price.basisPoints)
-
-    return formatAmount(basisAmount)
-  }
-
-  useEffect(() => {
-    loadListings(sellerAddress)
-  }, [loadListings])
-
   return (
     <Box flexGrow={1} position="relative">
       <Flex align="center" flexDirection="row" justifyContent="center">
         <Box w="320px">
           <Input
-              placeholder="Enter a seller address"
-              mt={5}
-              value={sellerAddress ? sellerAddress.toBase58() : ''}
-              onChange={(e) => {
-                e.preventDefault()
-                setSellerAddress(new PublicKey(e.target.value))
-              }}
+            placeholder="Enter a seller address"
+            mt={5}
+            value={sellerAddress ? sellerAddress.toBase58() : ''}
+            onChange={handleSellerChange}
           />
         </Box>
         <Box marginLeft="6px">
           <Button
-              colorScheme="purple"
-              size="md"
-              mt={5}
-              w="100%"
-              onClick={() => loadListings(sellerAddress)}
-              disabled={!sellerAddress}
+            colorScheme="purple"
+            size="md"
+            mt={5}
+            w="100%"
+            onClick={() => loadListings(sellerAddress)}
+            disabled={!sellerAddress}
           >
             Fetch Listings
           </Button>
@@ -127,6 +119,7 @@ const Listings: React.FC = () => {
             <Box w="320px">
               <ArtworkCard
                 artwork={selectedListing.asset}
+                listing={selectedListing}
                 key={selectedListing.asset.address.toBase58()}
               />
 
@@ -148,21 +141,10 @@ const Listings: React.FC = () => {
             {listings?.map((listing) => (
               <ArtworkCard
                 artwork={listing.asset}
+                listing={listing}
                 key={listing.asset.address.toBase58()}
                 onClick={() => setSelectedListings(listing)}
-              >
-                <Text
-                  mt={4}
-                  fontSize="2xl"
-                  fontWeight="bold"
-                  textTransform="capitalize"
-                  textAlign="start"
-                  padding="2px 10px 10px 5px"
-                  color="white"
-                >
-                  {formatPrice(listing)}
-                </Text>
-              </ArtworkCard>
+              />
             ))}
           </Grid>
         )}
