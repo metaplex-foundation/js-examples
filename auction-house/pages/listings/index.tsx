@@ -6,7 +6,7 @@ import {
   Grid,
   Heading,
   Input,
-  Spinner,
+  Spinner, Text,
   useToast,
   VStack,
 } from '@chakra-ui/react'
@@ -149,7 +149,17 @@ const Listings: NextPage = () => {
                 listing={selectedListing}
                 key={selectedListing.asset.address.toBase58()}
               >
-
+                {isSftSelected &&
+                <Text
+                    mt={4}
+                    fontSize="2xl"
+                    fontWeight="bold"
+                    textTransform="capitalize"
+                    color="white"
+                >
+                  Tokens on sale {selectedListing.tokens.basisPoints}
+                </Text>
+                }
               </ArtworkCard>
               {isSftSelected &&
               <Input
