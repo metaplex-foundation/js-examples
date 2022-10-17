@@ -34,7 +34,7 @@ app.get("/getNFT", async (req, res) => {
   }
 
   try {
-    const nft = await metaplex.nfts().findByMint({ mintAddress: new PublicKey(mintAddress) }).run();
+    const nft = await metaplex.nfts().findByMint({ mintAddress: new PublicKey(mintAddress) });
     res.json(nft);
   } catch (err) {
     res.send(err);

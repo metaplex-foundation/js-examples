@@ -10,7 +10,7 @@ export const ShowNFTs = ({ onClusterChange }) => {
   const [nft, setNft] = useState(null);
 
   const onClick = async () => {
-    const myAssets = await metaplex.nfts().findAllByOwner({ owner: metaplex.identity().publicKey }).run();
+    const myAssets = await metaplex.nfts().findAllByOwner({ owner: metaplex.identity().publicKey });
 
     if(!myAssets.length) {
       setNft(null);
@@ -18,7 +18,7 @@ export const ShowNFTs = ({ onClusterChange }) => {
     }
 
     const randIdx = Math.floor(Math.random() * myAssets.length);
-    const nft = await metaplex.nfts().load({ metadata: myAssets[randIdx] }).run();
+    const nft = await metaplex.nfts().load({ metadata: myAssets[randIdx] });
     setNft(nft);
   };
 

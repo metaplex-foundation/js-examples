@@ -71,7 +71,7 @@ Note that you can find all the code below in this [`pages/index.js` file](./page
    const loadData = async (startIndex, endIndex) => {
     const nftsToLoad = nftList.filter((_, index) => (index >= startIndex && index < endIndex))
 
-    const promises = nftsToLoad.map((metadata) => mx.nfts().load({ metadata }).run());
+    const promises = nftsToLoad.map((metadata) => mx.nfts().load({ metadata }));
     return Promise.all(promises);
   };
    ```

@@ -63,7 +63,7 @@ This example has been generated using the following steps:
    The `ShowNFTs` component is responsible for retrieving, picking and showing a random NFT from the connected wallet.
 
    ```js
-   const myAssets = await metaplex.nfts().findAllByOwner({ owner: metaplex.identity().publicKey }).run();
+   const myAssets = await metaplex.nfts().findAllByOwner({ owner: metaplex.identity().publicKey });
 
 
    if(!myAssets.length) {
@@ -72,7 +72,7 @@ This example has been generated using the following steps:
    }
 
    const randIdx = Math.floor(Math.random() * myAssets.length);
-   const nft = await metaplex.nfts().load({ metadata: myAssets[randIdx] }).run();
+   const nft = await metaplex.nfts().load({ metadata: myAssets[randIdx] });
    setNft(nft);
    ```
 
