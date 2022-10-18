@@ -34,9 +34,6 @@ const DEFAULT_CONTEXT = {
   isPending: false,
 }
 
-// CHANGE IT IF YOU WANT TO CREATE AH BY YOUR OWN.
-const DEFAULT_AH_OWNER = 'RVdcFNAnnwkyuC3NBPybgknSt6uQMtgaZ8ZnPMYrnXd'
-
 const AuctionHouseContext = createContext<AuctionHouseState>(DEFAULT_CONTEXT)
 
 export const AuctionHouseProvider: FC<PropsWithChildren> = ({ children }) => {

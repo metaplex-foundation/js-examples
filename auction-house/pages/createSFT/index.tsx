@@ -32,7 +32,7 @@ const CreateSFT: React.FC = () => {
 
     const metaplexFile = await toMetaplexFileFromBrowser(image)
 
-    const { uri, metadata } = await metaplex.nfts().uploadMetadata({
+    const { uri } = await metaplex.nfts().uploadMetadata({
       name: image.name,
       image: metaplexFile,
     });
@@ -54,7 +54,7 @@ const CreateSFT: React.FC = () => {
     })
 
     router.push('/')
-  }, [router, metaplex, auctionHouse, toast, image, tokenAmount])
+  }, [wallet, router, metaplex, auctionHouse, toast, image, tokenAmount])
 
   const handleTokenAmountChange = useCallback(
     (event: ChangeEvent<HTMLInputElement>) => {

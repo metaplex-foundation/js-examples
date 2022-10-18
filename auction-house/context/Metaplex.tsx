@@ -3,7 +3,6 @@ import {
   Metaplex,
   Option,
   bundlrStorage,
-  IdentitySigner,
 } from '@metaplex-foundation/js'
 import { useConnection, useWallet } from '@solana/wallet-adapter-react'
 import {

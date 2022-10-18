@@ -86,7 +86,7 @@ const Listings: NextPage = () => {
     })
 
     router.push('/')
-  }, [wallet, router, metaplex, auctionHouse, selectedListing, toast])
+  }, [isSftSelected, tokenAmount, wallet, router, metaplex, auctionHouse, selectedListing, toast])
 
   const handleSetTokenAmount = useCallback(
       (event: ChangeEvent<HTMLInputElement>) => {
@@ -149,6 +149,7 @@ const Listings: NextPage = () => {
                 listing={selectedListing}
                 key={selectedListing.asset.address.toBase58()}
               >
+
                 {isSftSelected &&
                 <Text
                     mt={4}
@@ -157,7 +158,7 @@ const Listings: NextPage = () => {
                     textTransform="capitalize"
                     color="white"
                 >
-                  Tokens on sale {selectedListing.tokens.basisPoints}
+                  <>Tokens on sale {selectedListing.tokens.basisPoints}</>
                 </Text>
                 }
               </ArtworkCard>
