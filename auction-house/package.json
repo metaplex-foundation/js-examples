@@ -14,7 +14,7 @@
     "@chakra-ui/react": "2.3.4",
     "@emotion/react": "11.10.4",
     "@emotion/styled": "11.10.4",
-    "@metaplex-foundation/js": "0.17.0",
+    "@metaplex-foundation/js": "0.17.2",
     "@solana/wallet-adapter-base": "^0.9.17",
     "@solana/wallet-adapter-react": "^0.15.19",
     "@solana/wallet-adapter-react-ui": "^0.9.17",

@@ -14,6 +14,7 @@ import { useRouter } from 'next/router'
 
 import { useAuctionHouse } from 'context/AuctionHouse'
 import { useMetaplex } from 'context/Metaplex'
+import {useWallet} from "@solana/wallet-adapter-react";
 
 const CreateSFT: React.FC = () => {
   const [image, setImage] = useState<File>()
@@ -22,24 +23,25 @@ const CreateSFT: React.FC = () => {
   const { auctionHouse } = useAuctionHouse()
   const toast = useToast()
   const router = useRouter()
+  const wallet = useWallet()
 
   const handleCreateSFT = useCallback(async () => {
-    if (!auctionHouse || !metaplex || !image || !tokenAmount) {
+    if (!auctionHouse || !metaplex || !image || !tokenAmount || !wallet || !wallet.publicKey) {
       return
     }
 
     const metaplexFile = await toMetaplexFileFromBrowser(image)
 
-    const { uri } = await metaplex.nfts().uploadMetadata({
-      name: 'SFT name',
-      description: 'SFT description',
+    const { uri, metadata } = await metaplex.nfts().uploadMetadata({
+      name: image.name,
       image: metaplexFile,
-    })
+    });
 
     await metaplex.nfts().createSft({
       uri,
-      name: 'On-chain SFT name',
+      name: image.name,
       sellerFeeBasisPoints: 200,
+      tokenOwner: wallet.publicKey,
       tokenAmount: token(tokenAmount),
     })
 
