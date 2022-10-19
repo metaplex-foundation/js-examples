@@ -14,7 +14,7 @@ import { useRouter } from 'next/router'
 
 import { useAuctionHouse } from 'context/AuctionHouse'
 import { useMetaplex } from 'context/Metaplex'
-import {useWallet} from "@solana/wallet-adapter-react";
+import { useWallet } from "@solana/wallet-adapter-react";
 
 const CreateSFT: React.FC = () => {
   const [image, setImage] = useState<File>()

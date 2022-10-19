@@ -1,10 +1,10 @@
-import {Listing,} from '@metaplex-foundation/js'
-import {useCallback, useMemo, useState} from 'react'
-import {useBoolean} from '@chakra-ui/react'
+import { Listing } from '@metaplex-foundation/js'
+import { useCallback, useMemo, useState } from 'react'
+import { useBoolean } from '@chakra-ui/react'
 
-import {PublicKey} from "@solana/web3.js";
-import {useMetaplex} from '../context/Metaplex'
-import {useAuctionHouse} from '../context/AuctionHouse'
+import { PublicKey } from "@solana/web3.js";
+import { useMetaplex } from '../context/Metaplex'
+import { useAuctionHouse } from '../context/AuctionHouse'
 
 const useListings = () => {
   const [listings, setListings] = useState<Listing[]>()

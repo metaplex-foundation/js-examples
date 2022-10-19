@@ -10,7 +10,7 @@ import {
   useToast,
   VStack,
 } from '@chakra-ui/react'
-import {isSft, token, Listing} from '@metaplex-foundation/js'
+import { isSft, token, Listing } from '@metaplex-foundation/js'
 import { PublicKey } from '@solana/web3.js'
 import { NextPage } from 'next'
 import { useRouter } from 'next/router'
