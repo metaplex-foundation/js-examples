@@ -1,4 +1,4 @@
-import { isMetadata, LoadMetadataOutput } from '@metaplex-foundation/js'
+import {isMetadata, LoadMetadataOutput, Metadata, Nft, Sft, TokenGpaBuilder} from '@metaplex-foundation/js'
 import { useWallet } from '@solana/wallet-adapter-react'
 import { useMemo, useState, useCallback } from 'react'
 import { useBoolean } from '@chakra-ui/react'
@@ -13,15 +13,27 @@ const useAssets = () => {
 
   const client = useMemo(() => metaplex?.nfts(), [metaplex])
 
+  const fetchAssetsMetadata = async () => {
+    if(!metaplex || !wallet || !wallet.publicKey)
+      return null;
+
+    const mints = await new TokenGpaBuilder(metaplex)
+        .selectMint()
+        .whereOwner(wallet.publicKey)
+        .getDataAsPublicKeys();
+
+    const nfts = await metaplex.nfts().findAllByMintList({ mints });
+
+    return nfts.filter((nft): nft is Metadata | Nft | Sft => nft !== null);
+  };
+
   const loadUserAssets = useCallback(async () => {
     if (client && wallet.publicKey) {
       try {
         setIsPending.on()
 
         // Finds and loads user's assets.
-        const userAssetsMetadata = await client
-          .findAllByOwner({ owner: wallet.publicKey })
-
+        const userAssetsMetadata = await fetchAssetsMetadata();
         if (!userAssetsMetadata) {
           return
         }
