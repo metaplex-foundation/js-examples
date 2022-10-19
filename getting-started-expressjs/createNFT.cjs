@@ -18,14 +18,15 @@ const metaplex = Metaplex.make(connection)
 
 const uploadNFT = async () => {
   const { uri } = await metaplex.nfts().uploadMetadata({
-    name: "First NFT",
+    name: "Metadata NFT",
   });
 
   const { nft } = await metaplex.nfts().create({
+    name: "First NFT",
     uri: uri,
   });
 
-  console.log(nft.mint.toBase58());
+  console.log(nft.mint.address.toBase58());
 };
 
 uploadNFT();
