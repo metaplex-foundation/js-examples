@@ -53,7 +53,7 @@ const useAssets = () => {
 
       setIsPending.off()
     }
-  }, [client, wallet, setIsPending])
+  }, [client, wallet, setIsPending, fetchAssetsMetadata])
 
   return useMemo(
     () => ({
