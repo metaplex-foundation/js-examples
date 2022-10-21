@@ -92,7 +92,6 @@ const ArtworkCard: React.FC<Props> = ({
           </Flex>
         </Box>
       </Box>
-    <>
       {listing && (
           <Text
               mt={4}
@@ -106,7 +105,6 @@ const ArtworkCard: React.FC<Props> = ({
             {formatPrice(listing)}
           </Text>
       )}
-    </>
     </Box>
   )
 }

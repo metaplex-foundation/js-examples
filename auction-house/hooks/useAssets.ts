@@ -33,7 +33,7 @@ const useAssets = () => {
         setIsPending.on()
 
         // Finds and loads user's assets.
-        const userAssetsMetadata = await fetchAssetsMetadata();//todo: JS SDK method as it will be developed
+        const userAssetsMetadata = await fetchAssetsMetadata();// todo: JS SDK method as it will be developed
         if (!userAssetsMetadata) {
           return
         }

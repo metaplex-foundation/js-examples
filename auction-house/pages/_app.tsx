@@ -15,6 +15,7 @@ import { WalletModalProvider } from '@solana/wallet-adapter-react-ui'
 import { MetaplexProvider } from 'context/Metaplex'
 import { AuctionHouseProvider } from 'context/AuctionHouse'
 import theme from 'theme'
+import NavBar from "../components/NavBar";
 
 const MyApp: FC<AppProps> = ({ Component, pageProps }) => {
   // Can be set to 'devnet', 'testnet', or 'mainnet-beta'
@@ -45,7 +46,10 @@ const MyApp: FC<AppProps> = ({ Component, pageProps }) => {
           <WalletModalProvider>
             <MetaplexProvider>
               <AuctionHouseProvider>
-                <Component {...pageProps} />
+                <>
+                  <NavBar />
+                  <Component {...pageProps} />
+                </>
               </AuctionHouseProvider>
             </MetaplexProvider>
           </WalletModalProvider>

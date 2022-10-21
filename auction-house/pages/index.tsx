@@ -10,7 +10,7 @@ import styles from '../styles/Home.module.css'
 
 const Home: NextPage = () => {
   const wallet = useWallet()
-  const { auctionHouse, handleCreateAuctionHouse, isPending } =
+  const { auctionHouse, loadUserAuctionHouse, handleCreateAuctionHouse, isPending } =
     useAuctionHouse()
 
   const isWalletLoaded = wallet.publicKey && !isPending
@@ -34,9 +34,9 @@ const Home: NextPage = () => {
                 Create Listing
               </Button>
             </Link>
-            <Link href="/createSFT">
+            <Link href="/createNFT">
               <Button colorScheme="purple" size="lg">
-                Create SFT
+                Create NFT
               </Button>
             </Link>
             <Link href="/listings">
@@ -55,6 +55,13 @@ const Home: NextPage = () => {
         {!isAuctionHouseLoaded && (
           <div className={styles.main}>
             {!wallet.publicKey && <WalletMultiButton />}
+              <Button
+                  colorScheme="purple"
+                  size="lg"
+                  onClick={loadUserAuctionHouse}
+              >
+                  Connect Auction House
+              </Button>
 
             {shouldShowCreateBtn && (
               <Button

@@ -16,7 +16,7 @@ import { useAuctionHouse } from 'context/AuctionHouse'
 import { useMetaplex } from 'context/Metaplex'
 import { useWallet } from "@solana/wallet-adapter-react";
 
-const CreateSFT: React.FC = () => {
+const CreateNFT: React.FC = () => {
   const [image, setImage] = useState<File>()
   const [tokenAmount, setTokenAmount] = useState<number>(0)
   const { metaplex } = useMetaplex()
@@ -26,7 +26,7 @@ const CreateSFT: React.FC = () => {
   const wallet = useWallet()
 
   const handleCreateSFT = useCallback(async () => {
-    if (!auctionHouse || !metaplex || !image || !tokenAmount || !wallet || !wallet.publicKey) {
+    if (!auctionHouse || !metaplex || !image || !wallet || !wallet.publicKey) {
       return
     }
 
@@ -37,22 +37,35 @@ const CreateSFT: React.FC = () => {
       image: metaplexFile,
     });
 
-    await metaplex.nfts().createSft({
-      uri,
-      name: image.name,
-      sellerFeeBasisPoints: 200,
-      tokenOwner: wallet.publicKey,
-      tokenAmount: token(tokenAmount),
-    })
+    let title = '';
+    if(tokenAmount && tokenAmount > 1) {
+      await metaplex.nfts().createSft({
+        uri,
+        name: image.name,
+        sellerFeeBasisPoints: 200,
+        tokenOwner: wallet.publicKey,
+        tokenAmount: token(tokenAmount),
+      })
+
+      title = 'SFT created.';
+    } else {
+      await metaplex.nfts().create({
+        uri,
+        name: image.name,
+        sellerFeeBasisPoints: 200,
+        tokenOwner: wallet.publicKey
+      });
+
+      title = 'NFT created.';
+    }
 
     toast({
-      title: 'SFT created.',
+      title,
       description: "We've created your SFT.",
       status: 'success',
       duration: 9000,
       isClosable: true,
     })
-
     router.push('/')
   }, [wallet, router, metaplex, auctionHouse, toast, image, tokenAmount])
 
@@ -115,9 +128,9 @@ const CreateSFT: React.FC = () => {
                 mt={5}
                 w="100%"
                 onClick={handleCreateSFT}
-                disabled={!image || !tokenAmount}
+                disabled={!image}
               >
-                Create SFT
+                Create NFT
               </Button>
             </Box>
           </Flex>
@@ -127,4 +140,4 @@ const CreateSFT: React.FC = () => {
   )
 }
 
-export default CreateSFT
+export default CreateNFT

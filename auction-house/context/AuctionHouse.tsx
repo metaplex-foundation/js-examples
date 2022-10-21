@@ -14,7 +14,6 @@ import {
   useMemo,
   useState,
   useCallback,
-  useEffect,
   createContext,
   useContext,
 } from 'react'
@@ -24,6 +23,8 @@ interface AuctionHouseState {
   auctionHouse?: Option<AuctionHouse>
   client?: Option<AuctionHouseClient>
   handleCreateAuctionHouse(): Promise<void>
+  handleAuctionHouseDisconnect(): Promise<void>
+  loadUserAuctionHouse(): Promise<void>
   isPending: boolean
 }
 
@@ -31,6 +32,8 @@ const DEFAULT_CONTEXT = {
   auctionHouse: null,
   client: null,
   handleCreateAuctionHouse: () => Promise.resolve(),
+  handleAuctionHouseDisconnect: () => Promise.resolve(),
+  loadUserAuctionHouse: () => Promise.resolve(),
   isPending: false,
 }
 
@@ -86,15 +89,13 @@ export const AuctionHouseProvider: FC<PropsWithChildren> = ({ children }) => {
     }
   }, [auctionHouse, client, wallet, setIsPending])
 
-  useEffect(() => {
-    loadUserAuctionHouse()
-  }, [loadUserAuctionHouse])
-
   const value = useMemo(
     () => ({
       auctionHouse,
       client,
+      loadUserAuctionHouse,
       handleCreateAuctionHouse,
+      handleAuctionHouseDisconnect: () => Promise.resolve(setAuctionHouse(undefined)),
       isPending,
     }),
     [auctionHouse, client, handleCreateAuctionHouse, isPending]

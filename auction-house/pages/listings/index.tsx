@@ -160,7 +160,7 @@ const Listings: NextPage = () => {
                         padding="2px 10px 10px 5px"
                         color="white"
                     >
-                      {'Tokens supply: '+selectedListing.asset.mint.supply.basisPoints}
+                      {`Tokens supply: ${selectedListing.asset.mint.supply.basisPoints}`}
                   </Text>
                   <Input
                       placeholder="Enter amount of tokens to buy"

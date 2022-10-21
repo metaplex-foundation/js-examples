@@ -120,7 +120,7 @@ const CreateListing: React.FC = () => {
                             padding="2px 10px 10px 5px"
                             color="white"
                         >
-                          {'Tokens supply: '+selectedAsset.mint.supply.basisPoints}
+                          {`Tokens supply: ${selectedAsset.mint.supply.basisPoints}`}
                     </Text>
                     <Input
                       placeholder="Enter amount of tokens to sale"
@@ -132,7 +132,7 @@ const CreateListing: React.FC = () => {
               )}
 
               <Input
-                placeholder="Enter a listing price in SOL"
+                placeholder={isSft(selectedAsset) ? 'Enter a listing price per token in SOL' : "Enter a listing price in SOL"}
                 mt={5}
                 value={price}
                 onChange={handleSetPrice}
