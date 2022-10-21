@@ -1,4 +1,4 @@
-import { Image, Avatar, Box, BoxProps, Flex, Text } from '@chakra-ui/react'
+import { Avatar, Box, BoxProps, Flex, Image, Text } from '@chakra-ui/react'
 import { isSft, Listing, LoadMetadataOutput } from '@metaplex-foundation/js'
 import React from 'react'
 
@@ -92,20 +92,21 @@ const ArtworkCard: React.FC<Props> = ({
           </Flex>
         </Box>
       </Box>
-
+    <>
       {listing && (
-        <Text
-          mt={4}
-          fontSize="2xl"
-          fontWeight="bold"
-          textTransform="capitalize"
-          textAlign="start"
-          padding="2px 10px 10px 5px"
-          color="white"
-        >
-          {formatPrice(listing)}
-        </Text>
+          <Text
+              mt={4}
+              fontSize="2xl"
+              fontWeight="bold"
+              textTransform="capitalize"
+              textAlign="start"
+              padding="2px 10px 10px 5px"
+              color="white"
+          >
+            {formatPrice(listing)}
+          </Text>
       )}
+    </>
     </Box>
   )
 }

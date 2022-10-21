@@ -148,27 +148,27 @@ const Listings: NextPage = () => {
                 artwork={selectedListing.asset}
                 listing={selectedListing}
                 key={selectedListing.asset.address.toBase58()}
-              >
-
-                {isSftSelected &&
-                <Text
-                    mt={4}
-                    fontSize="2xl"
-                    fontWeight="bold"
-                    textTransform="capitalize"
-                    color="white"
-                >
-                  <>Tokens on sale {selectedListing.tokens.basisPoints}</>
-                </Text>
-                }
-              </ArtworkCard>
+              />
               {isSftSelected &&
-              <Input
-                  placeholder="Enter amount of tokens to buy"
-                  mt={5}
-                  value={tokenAmount}
-                  onChange={handleSetTokenAmount}
-              />}
+                  <>
+                    <Text
+                        mt={4}
+                        fontSize="xl"
+                        fontWeight="bold"
+                        textTransform="capitalize"
+                        textAlign="start"
+                        padding="2px 10px 10px 5px"
+                        color="white"
+                    >
+                      {'Tokens supply: '+selectedListing.asset.mint.supply.basisPoints}
+                  </Text>
+                  <Input
+                      placeholder="Enter amount of tokens to buy"
+                      mt={5}
+                      value={tokenAmount}
+                      onChange={handleSetTokenAmount}
+                  />
+              </>}
               <Button
                 colorScheme="purple"
                 size="lg"
