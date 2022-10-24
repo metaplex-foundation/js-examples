@@ -93,17 +93,17 @@ const ArtworkCard: React.FC<Props> = ({
         </Box>
       </Box>
       {listing && (
-          <Text
-              mt={4}
-              fontSize="2xl"
-              fontWeight="bold"
-              textTransform="capitalize"
-              textAlign="start"
-              padding="2px 10px 10px 5px"
-              color="white"
-          >
-            {formatPrice(listing)}
-          </Text>
+        <Text
+          mt={4}
+          fontSize="2xl"
+          fontWeight="bold"
+          textTransform="capitalize"
+          textAlign="start"
+          padding="2px 10px 10px 5px"
+          color="white"
+        >
+          {formatPrice(listing)}
+        </Text>
       )}
     </Box>
   )

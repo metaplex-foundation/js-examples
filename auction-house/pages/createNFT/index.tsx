@@ -14,7 +14,7 @@ import { useRouter } from 'next/router'
 
 import { useAuctionHouse } from 'context/AuctionHouse'
 import { useMetaplex } from 'context/Metaplex'
-import { useWallet } from "@solana/wallet-adapter-react";
+import { useWallet } from '@solana/wallet-adapter-react'
 
 const CreateNFT: React.FC = () => {
   const [image, setImage] = useState<File>()
@@ -35,10 +35,10 @@ const CreateNFT: React.FC = () => {
     const { uri } = await metaplex.nfts().uploadMetadata({
       name: image.name,
       image: metaplexFile,
-    });
+    })
 
-    let title = '';
-    if(tokenAmount && tokenAmount > 1) {
+    let title = ''
+    if (tokenAmount && tokenAmount > 1) {
       await metaplex.nfts().createSft({
         uri,
         name: image.name,
@@ -47,16 +47,16 @@ const CreateNFT: React.FC = () => {
         tokenAmount: token(tokenAmount),
       })
 
-      title = 'SFT created.';
+      title = 'SFT created.'
     } else {
       await metaplex.nfts().create({
         uri,
         name: image.name,
         sellerFeeBasisPoints: 200,
-        tokenOwner: wallet.publicKey
-      });
+        tokenOwner: wallet.publicKey,
+      })
 
-      title = 'NFT created.';
+      title = 'NFT created.'
     }
 
     toast({

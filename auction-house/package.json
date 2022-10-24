@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "yarn tsc --noEmit && yarn eslint .",
-    "lint:fix": "yarn tsc --noEmit && yarn eslint --fix ."
+    "lint:fix": "yarn tsc --noEmit && prettier --write '**/*.{js,jsx,ts,tsx}' && yarn eslint --fix ."
   },
   "dependencies": {
     "@fontsource/inter": "^4.5.0",

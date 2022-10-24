@@ -6,7 +6,8 @@ import {
   Grid,
   Heading,
   Input,
-  Spinner, Text,
+  Spinner,
+  Text,
   useToast,
   VStack,
 } from '@chakra-ui/react'
@@ -110,29 +111,33 @@ const CreateListing: React.FC = () => {
               />
 
               {isSft(selectedAsset) && (
-                  <>
-                    <Text
-                            mt={4}
-                            fontSize="xl"
-                            fontWeight="bold"
-                            textTransform="capitalize"
-                            textAlign="start"
-                            padding="2px 10px 10px 5px"
-                            color="white"
-                        >
-                          {`Tokens supply: ${selectedAsset.mint.supply.basisPoints}`}
-                    </Text>
-                    <Input
-                      placeholder="Enter amount of tokens to sale"
-                      mt={5}
-                      value={tokenAmount}
-                      onChange={handleSetTokenAmount}
-                    />
+                <>
+                  <Text
+                    mt={4}
+                    fontSize="xl"
+                    fontWeight="bold"
+                    textTransform="capitalize"
+                    textAlign="start"
+                    padding="2px 10px 10px 5px"
+                    color="white"
+                  >
+                    {`Tokens supply: ${selectedAsset.mint.supply.basisPoints}`}
+                  </Text>
+                  <Input
+                    placeholder="Enter amount of tokens to sale"
+                    mt={5}
+                    value={tokenAmount}
+                    onChange={handleSetTokenAmount}
+                  />
                 </>
               )}
 
               <Input
-                placeholder={isSft(selectedAsset) ? 'Enter a listing price per token in SOL' : "Enter a listing price in SOL"}
+                placeholder={
+                  isSft(selectedAsset)
+                    ? 'Enter a listing price per token in SOL'
+                    : 'Enter a listing price in SOL'
+                }
                 mt={5}
                 value={price}
                 onChange={handleSetPrice}

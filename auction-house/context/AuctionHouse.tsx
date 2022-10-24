@@ -17,7 +17,7 @@ import {
   createContext,
   useContext,
 } from 'react'
-import {PublicKey} from "@solana/web3.js";
+import { PublicKey } from '@solana/web3.js'
 import { useMetaplex } from './Metaplex'
 
 interface AuctionHouseState {
@@ -57,10 +57,9 @@ export const AuctionHouseProvider: FC<PropsWithChildren> = ({ children }) => {
     }
 
     // Create Auction House.
-    const response = await client
-      .create({
-        sellerFeeBasisPoints: 200, // 2% Fee
-      })
+    const response = await client.create({
+      sellerFeeBasisPoints: 200, // 2% Fee
+    })
 
     // Airdrop SOL to AH Fee account.
     // It won't work in mainnet, you will need to send SOLs to this account.
@@ -71,25 +70,27 @@ export const AuctionHouseProvider: FC<PropsWithChildren> = ({ children }) => {
     setAuctionHouse(response.auctionHouse)
   }, [metaplex, client])
 
-  const loadAuctionHouse = useCallback(async (ahAddress: PublicKey) => {
-    if (!auctionHouse && client && wallet.publicKey) {
-      setIsPending.on()
+  const loadAuctionHouse = useCallback(
+    async (ahAddress: PublicKey) => {
+      if (!auctionHouse && client && wallet.publicKey) {
+        setIsPending.on()
 
-      try {
-        // Finds and loads user's auction house.
-        const userAuctionHouse = await client.findByAddress({
-            address: ahAddress
-          });
+        try {
+          // Finds and loads user's auction house.
+          const userAuctionHouse = await client.findByAddress({
+            address: ahAddress,
+          })
 
+          setAuctionHouse(userAuctionHouse)
+        } catch {
+          // do nothing, user doesn't have AH
+        }
 
-        setAuctionHouse(userAuctionHouse)
-      } catch {
-        // do nothing, user doesn't have AH
+        setIsPending.off()
       }
-
-      setIsPending.off()
-    }
-  }, [auctionHouse, client, wallet, setIsPending])
+    },
+    [auctionHouse, client, wallet, setIsPending]
+  )
 
   const loadUserAuctionHouse = useCallback(async () => {
     if (!auctionHouse && client && wallet.publicKey) {
@@ -97,11 +98,10 @@ export const AuctionHouseProvider: FC<PropsWithChildren> = ({ children }) => {
 
       try {
         // Finds and loads auction house by address.
-         const userAuctionHouse = await client
-              .findByCreatorAndMint({
-                creator: toPublicKey(wallet.publicKey),
-                treasuryMint: WRAPPED_SOL_MINT
-              });
+        const userAuctionHouse = await client.findByCreatorAndMint({
+          creator: toPublicKey(wallet.publicKey),
+          treasuryMint: WRAPPED_SOL_MINT,
+        })
         setAuctionHouse(userAuctionHouse)
       } catch {
         // do nothing, user doesn't have AH
@@ -118,10 +118,18 @@ export const AuctionHouseProvider: FC<PropsWithChildren> = ({ children }) => {
       loadAuctionHouse,
       loadUserAuctionHouse,
       handleCreateAuctionHouse,
-      handleAuctionHouseDisconnect: () => Promise.resolve(setAuctionHouse(undefined)),
+      handleAuctionHouseDisconnect: () =>
+        Promise.resolve(setAuctionHouse(undefined)),
       isPending,
     }),
-    [auctionHouse, client, handleCreateAuctionHouse,loadAuctionHouse, loadUserAuctionHouse, isPending]
+    [
+      auctionHouse,
+      client,
+      handleCreateAuctionHouse,
+      loadAuctionHouse,
+      loadUserAuctionHouse,
+      isPending,
+    ]
   )
 
   return (

@@ -6,7 +6,8 @@ import {
   Grid,
   Heading,
   Input,
-  Spinner, Text,
+  Spinner,
+  Text,
   useToast,
   VStack,
 } from '@chakra-ui/react'
@@ -34,7 +35,7 @@ const Listings: NextPage = () => {
   const [selectedListing, setSelectedListings] = useState<Listing>()
   const [sellerAddress, setSellerAddress] = useState<PublicKey>()
   const [tokenAmount, setTokenAmount] = useState<number>()
-  const isSftSelected = isSft(selectedListing?.asset);
+  const isSftSelected = isSft(selectedListing?.asset)
 
   const isLoading = isPendingListings || isPending
 
@@ -54,22 +55,21 @@ const Listings: NextPage = () => {
       return
     }
 
-    if(isSftSelected) {
-      if(!tokenAmount)
-        return;
+    if (isSftSelected) {
+      if (!tokenAmount) return
 
       const { bid } = await metaplex.auctionHouse().bid({
         auctionHouse,
         mintAccount: selectedListing.asset.address,
         price: selectedListing.price,
-        tokens: token(tokenAmount)
-      });
+        tokens: token(tokenAmount),
+      })
 
       await metaplex.auctionHouse().executeSale({
         auctionHouse,
         listing: selectedListing,
         bid,
-      });
+      })
     } else {
       await metaplex.auctionHouse().buy({
         auctionHouse,
@@ -86,13 +86,22 @@ const Listings: NextPage = () => {
     })
 
     router.push('/')
-  }, [isSftSelected, tokenAmount, wallet, router, metaplex, auctionHouse, selectedListing, toast])
+  }, [
+    isSftSelected,
+    tokenAmount,
+    wallet,
+    router,
+    metaplex,
+    auctionHouse,
+    selectedListing,
+    toast,
+  ])
 
   const handleSetTokenAmount = useCallback(
-      (event: ChangeEvent<HTMLInputElement>) => {
-        setTokenAmount(Number(event.target.value))
-      },
-      []
+    (event: ChangeEvent<HTMLInputElement>) => {
+      setTokenAmount(Number(event.target.value))
+    },
+    []
   )
 
   return (
@@ -149,26 +158,27 @@ const Listings: NextPage = () => {
                 listing={selectedListing}
                 key={selectedListing.asset.address.toBase58()}
               />
-              {isSftSelected &&
-                  <>
-                    <Text
-                        mt={4}
-                        fontSize="xl"
-                        fontWeight="bold"
-                        textTransform="capitalize"
-                        textAlign="start"
-                        padding="2px 10px 10px 5px"
-                        color="white"
-                    >
-                      {`Tokens supply: ${selectedListing.asset.mint.supply.basisPoints}`}
+              {isSftSelected && (
+                <>
+                  <Text
+                    mt={4}
+                    fontSize="xl"
+                    fontWeight="bold"
+                    textTransform="capitalize"
+                    textAlign="start"
+                    padding="2px 10px 10px 5px"
+                    color="white"
+                  >
+                    {`Tokens supply: ${selectedListing.asset.mint.supply.basisPoints}`}
                   </Text>
                   <Input
-                      placeholder="Enter amount of tokens to buy"
-                      mt={5}
-                      value={tokenAmount}
-                      onChange={handleSetTokenAmount}
+                    placeholder="Enter amount of tokens to buy"
+                    mt={5}
+                    value={tokenAmount}
+                    onChange={handleSetTokenAmount}
                   />
-              </>}
+                </>
+              )}
               <Button
                 colorScheme="purple"
                 size="lg"
