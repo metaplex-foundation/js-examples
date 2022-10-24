@@ -17,15 +17,16 @@ import {
   createContext,
   useContext,
 } from 'react'
-import { useMetaplex } from './Metaplex'
 import {PublicKey} from "@solana/web3.js";
+import { useMetaplex } from './Metaplex'
 
 interface AuctionHouseState {
   auctionHouse?: Option<AuctionHouse>
   client?: Option<AuctionHouseClient>
   handleCreateAuctionHouse(): Promise<void>
   handleAuctionHouseDisconnect(): Promise<void>
-  loadUserAuctionHouse(ahAddress: PublicKey): Promise<void>
+  loadAuctionHouse(ahAddress: PublicKey): Promise<void>
+  loadUserAuctionHouse(): Promise<void>
   isPending: boolean
 }
 
@@ -34,7 +35,8 @@ const DEFAULT_CONTEXT = {
   client: null,
   handleCreateAuctionHouse: () => Promise.resolve(),
   handleAuctionHouseDisconnect: () => Promise.resolve(),
-  loadUserAuctionHouse: (ahAddress: PublicKey) => Promise.resolve(),
+  loadAuctionHouse: () => Promise.resolve(),
+  loadUserAuctionHouse: () => Promise.resolve(),
   isPending: false,
 }
 
@@ -69,25 +71,37 @@ export const AuctionHouseProvider: FC<PropsWithChildren> = ({ children }) => {
     setAuctionHouse(response.auctionHouse)
   }, [metaplex, client])
 
-  const loadUserAuctionHouse = useCallback(async (ahAddress?: PublicKey) => {
+  const loadAuctionHouse = useCallback(async (ahAddress: PublicKey) => {
     if (!auctionHouse && client && wallet.publicKey) {
       setIsPending.on()
 
       try {
         // Finds and loads user's auction house.
-        let userAuctionHouse;
-        if(!!ahAddress) {
-          userAuctionHouse = await client.findByAddress({
+        const userAuctionHouse = await client.findByAddress({
             address: ahAddress
           });
-        } else {
-          userAuctionHouse = await client
+
+
+        setAuctionHouse(userAuctionHouse)
+      } catch {
+        // do nothing, user doesn't have AH
+      }
+
+      setIsPending.off()
+    }
+  }, [auctionHouse, client, wallet, setIsPending])
+
+  const loadUserAuctionHouse = useCallback(async () => {
+    if (!auctionHouse && client && wallet.publicKey) {
+      setIsPending.on()
+
+      try {
+        // Finds and loads auction house by address.
+         const userAuctionHouse = await client
               .findByCreatorAndMint({
                 creator: toPublicKey(wallet.publicKey),
                 treasuryMint: WRAPPED_SOL_MINT
               });
-        }
-
         setAuctionHouse(userAuctionHouse)
       } catch {
         // do nothing, user doesn't have AH
@@ -101,12 +115,13 @@ export const AuctionHouseProvider: FC<PropsWithChildren> = ({ children }) => {
     () => ({
       auctionHouse,
       client,
+      loadAuctionHouse,
       loadUserAuctionHouse,
       handleCreateAuctionHouse,
       handleAuctionHouseDisconnect: () => Promise.resolve(setAuctionHouse(undefined)),
       isPending,
     }),
-    [auctionHouse, client, handleCreateAuctionHouse, isPending]
+    [auctionHouse, client, handleCreateAuctionHouse,loadAuctionHouse, loadUserAuctionHouse, isPending]
   )
 
   return (

@@ -6,14 +6,14 @@ import { useWallet } from '@solana/wallet-adapter-react'
 import { useAuctionHouse } from 'context/AuctionHouse'
 
 import Link from 'next/link'
-import styles from '../styles/Home.module.css'
 import React, {ChangeEvent, useCallback, useState} from "react";
 import {PublicKey} from "@solana/web3.js";
+import styles from '../styles/Home.module.css'
 
 const Home: NextPage = () => {
   const [auctionHouseAddress, setAHAddress] = useState<PublicKey>();
   const wallet = useWallet();
-  const { auctionHouse, loadUserAuctionHouse, handleCreateAuctionHouse, isPending } =
+  const { auctionHouse, loadUserAuctionHouse, loadAuctionHouse, handleCreateAuctionHouse, isPending } =
     useAuctionHouse();
 
   const isWalletLoaded = wallet.publicKey && !isPending;
@@ -62,7 +62,7 @@ const Home: NextPage = () => {
           </div>
         )}
 
-        {!isAuctionHouseLoaded && !!wallet.connected && (
+        {!isAuctionHouseLoaded && wallet.connected && (
           <div className={styles.main}>
             {!wallet.publicKey && <WalletMultiButton />}
             <Flex flexDirection="column">
@@ -75,9 +75,17 @@ const Home: NextPage = () => {
               <Button
                   colorScheme="purple"
                   size="lg"
-                  onClick={() => loadUserAuctionHouse(auctionHouseAddress)}
+                  onClick={() => loadAuctionHouse(auctionHouseAddress as PublicKey)}
+                  disabled={!auctionHouseAddress}
               >
                   Connect Auction House
+              </Button>
+              <Button
+                  colorScheme="purple"
+                  size="lg"
+                  onClick={loadUserAuctionHouse}
+              >
+                  Connect User`s Auction House
               </Button>
 
             {shouldShowCreateBtn && (
