@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useCallback, useState } from 'react'
+import React, { ChangeEvent, useCallback, useEffect, useState } from 'react'
 import {
   Box,
   Button,
@@ -12,7 +12,6 @@ import {
   VStack,
 } from '@chakra-ui/react'
 import { isSft, token, Listing } from '@metaplex-foundation/js'
-import { PublicKey } from '@solana/web3.js'
 import { NextPage } from 'next'
 import { useRouter } from 'next/router'
 import { useWallet } from '@solana/wallet-adapter-react'
@@ -33,16 +32,10 @@ const Listings: NextPage = () => {
   const { auctionHouse, isPending } = useAuctionHouse()
 
   const [selectedListing, setSelectedListings] = useState<Listing>()
-  const [sellerAddress, setSellerAddress] = useState<PublicKey>()
   const [tokenAmount, setTokenAmount] = useState<number>()
   const isSftSelected = isSft(selectedListing?.asset)
 
   const isLoading = isPendingListings || isPending
-
-  const handleSellerChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
-    e.preventDefault()
-    setSellerAddress(new PublicKey(e.target.value))
-  }, [])
 
   const handleExecuteSale = useCallback(async () => {
     if (
@@ -104,30 +97,12 @@ const Listings: NextPage = () => {
     []
   )
 
+  useEffect(() => {
+    loadListings()
+  }, [loadListings])
+
   return (
     <Box flexGrow={1} position="relative">
-      <Flex align="center" flexDirection="row" justifyContent="center">
-        <Box w="320px">
-          <Input
-            placeholder="Enter a seller address"
-            mt={5}
-            value={sellerAddress ? sellerAddress.toBase58() : ''}
-            onChange={handleSellerChange}
-          />
-        </Box>
-        <Box marginLeft="6px">
-          <Button
-            colorScheme="purple"
-            size="md"
-            mt={5}
-            w="100%"
-            onClick={() => loadListings(sellerAddress)}
-            disabled={!sellerAddress}
-          >
-            Fetch Listings
-          </Button>
-        </Box>
-      </Flex>
       <Flex
         minH="100vh"
         direction="column"
