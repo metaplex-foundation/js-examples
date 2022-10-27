@@ -4,6 +4,7 @@ import { useBoolean } from '@chakra-ui/react'
 
 import { useMetaplex } from '../context/Metaplex'
 import { useAuctionHouse } from '../context/AuctionHouse'
+import { PublicKey } from "@solana/web3.js";
 
 const useListings = () => {
   const [listings, setListings] = useState<Listing[]>()
@@ -15,15 +16,20 @@ const useListings = () => {
   const client = useMemo(() => metaplex?.auctionHouse(), [metaplex])
 
   const loadListings = useCallback(
-    async () => {
+    async (seller?: PublicKey) => {
       if (client && metaplex && auctionHouse) {
         try {
           setIsPending.on()
 
           // Finds and loads listings from auction house.
-          const lazyListings = await client.findListings({
-            auctionHouse,
-          })
+          const lazyListings = seller
+            ? await client.findListings({
+                auctionHouse,
+                seller
+              })
+            : await client.findListings({
+                auctionHouse
+              })
 
           if (!lazyListings) {
             return
@@ -53,7 +59,7 @@ const useListings = () => {
     () => ({
       listings,
       isPending,
-      loadListings,
+      loadListings
     }),
     [listings, isPending, loadListings]
   )
