@@ -1,34 +1,87 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Auction House usage example
 
-## Getting Started
+In this example, we will see how to use [Auction House](https://docs.metaplex.com/programs/auction-house/overview) program using the [Metaplex JS SDK](https://github.com/metaplex-foundation/js).
 
-First, run the development server:
+Once the user has connected their wallet, we display input for the Auction House address and allow the user to create their own Auction House marketplace.
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+This is achieved by using AuctionHouse context from `./context/AuctionHouse.tsx`.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+**Auction House context**
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+The `./context/AuctionHouse.tsx` file is responsible for creating and exposing a new Auction House Context which will be used within our components to access the Auction House SDK.
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+It gives the ability to create an auction house.
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+  ```ts
+  const response = await client.create({
+    sellerFeeBasisPoints: 200, // 2% Fee
+  })
+  ```
 
-## Learn More
+To fetch the user's auction house.
 
-To learn more about Next.js, take a look at the following resources:
+  ```ts
+  const userAuctionHouse = await client.findByCreatorAndMint({
+    creator: toPublicKey(wallet.publicKey),
+    treasuryMint: WRAPPED_SOL_MINT,
+  })
+  ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+To load auction house by address.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+  ```ts
+  const userAuctionHouse = await client.findByAddress({
+    address: ahAddress,
+  })
+  ```
 
-## Deploy on Vercel
+**Assets Loading hook**
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+The `./hooks/useAssets.tsx` file is responsible to fetch the user's NFTs and SFTs that can be then listed in the auction house.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+  ```ts
+  // Finds and loads user's assets.
+  const userAssetsMetadata = await fetchAssetsMetadata() // todo: JS SDK method as it will be developed
+  if (!userAssetsMetadata) {
+    return
+  }
+
+  const promises: Promise<LoadMetadataOutput>[] = []
+  userAssetsMetadata.forEach((metadata) => {
+    if (isMetadata(metadata)) {
+      promises.push(client.load({ metadata }))
+    }
+  })
+
+  const userAssets = await Promise.all(promises)
+  ```
+
+
+**Listings Loading hook**
+
+The `./hooks/useListings.tsx` file is responsible to fetch the user's listings or listings of a given user in the current auction house.
+
+  ```ts
+  // Finds and loads listings from auction house.
+  const lazyListings = seller
+    ? await client.findListings({
+        auctionHouse,
+        seller
+      })
+    : await client.findListings({
+        auctionHouse
+      })
+
+  if (!lazyListings) {
+    return
+  }
+
+  // Fetch listing for lazy listings
+  const fetchedListings = await Promise.all(
+    lazyListings.map((listing) =>
+      !listing.lazy
+        ? Promise.resolve(listing)
+        : client.loadListing({ lazyListing: listing })
+    )
+  )
+  ```
