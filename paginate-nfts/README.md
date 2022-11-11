@@ -46,7 +46,7 @@ Note that you can find all the code below in this [`pages/index.js` file](./page
 
    For instance, when the user provides its wallet address, the `nftList` is updated and `currentPage` is set to 1, which means the `useEffect` hook will be triggered.
 
-   ```js
+  ```js
    useEffect(() => {
     if (!nftList) {
       return;
@@ -63,7 +63,7 @@ Note that you can find all the code below in this [`pages/index.js` file](./page
 
     execute();
   }, [nftList, currentPage]);
-   ```
+  ```
 
    This useEffect calls the `loadData` function which goes through the NFTs falling in the index range of current page and loads the NFT metadata that isn't loaded yet.
 
