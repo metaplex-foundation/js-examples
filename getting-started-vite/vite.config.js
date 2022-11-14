@@ -13,6 +13,7 @@ export default defineConfig({
       assert: 'assert',
       crypto: 'crypto-browserify',
       util: 'util',
+      'near-api-js': 'near-api-js/dist/near-api-js.js',
     },
   },
   define: {
