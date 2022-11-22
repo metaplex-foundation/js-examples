@@ -16,6 +16,7 @@ import {
 import { clusterApiUrl } from '@solana/web3.js';
 import { MetaplexProvider } from './MetaplexProvider';
 import { ShowNFTs } from './ShowNFTs';
+import { MintNFTs } from './MintNFTs';
 import '@solana/wallet-adapter-react-ui/styles.css';
 
 export default function Home() {
@@ -62,6 +63,7 @@ export default function Home() {
           <div className={styles.App}>
             <WalletMultiButton />
             <ShowNFTs onClusterChange={handleChange} />
+            <MintNFTs onClusterChange={handleChange} />
           </div>
         </MetaplexProvider>
         </WalletModalProvider>

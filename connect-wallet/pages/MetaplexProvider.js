@@ -12,6 +12,15 @@ export const MetaplexProvider = ({ children }) => {
     [connection, wallet]
   );
 
+  const MintNFTs = async ({ onClusterChange }) => {
+  const candyMachine = await metaplex
+  .candyMachines()
+  .findByAddress({ address: candyMachineAddress });
+
+
+  const guard = candyMachine.candyGuard.guards;
+  console.log(guard.tokenBurn?.amount.basisPoints.toNumber())
+  };
   return (
     <MetaplexContext.Provider value={{ metaplex }}>
       {children}
