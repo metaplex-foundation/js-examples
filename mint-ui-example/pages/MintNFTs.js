@@ -45,13 +45,30 @@ export const MintNFTs = ({ onClusterChange }) => {
     const guard = candyMachine.candyGuard.guards;
     console.log(guard);
 
+    // Calculate current time based on Solana BlockTime which the on chain program is using! 
+    const slot = await metaplex.connection.getSlot();
+    const solanaTime = await metaplex.connection.getBlockTime(slot);
     if (guard.startDate != null) {
-      // Calculate current time based on Solana BlockTime which the on chain program is using! 
-      const slot = await metaplex.connection.getSlot();
-      const solanaTime = await metaplex.connection.getBlockTime(slot);
       const candyStartDate = guard.startDate.date.toString(10);
       if (solanaTime < candyStartDate) {
-        console.log("startDate: CM not live yet");
+        console.error("startDate: CM not live yet");
+        setDisableMint(true);
+        return;
+      }
+    }
+
+    if (guard.endDate != null) {
+      const candyEndDate = guard.endDate.date.toString(10);
+      if (solanaTime > candyEndDate) {
+        console.error("endDate: CM not live anymore");
+        setDisableMint(true);
+        return;
+      }
+    }
+
+    if (guard.addressGate != null) {
+      if (metaplex.identity().publicKey.toBase58() != guard.addressGate.address.toBase58()) {
+        console.error("addressGate: You are not allowed to mint");
         setDisableMint(true);
         return;
       }
@@ -83,6 +100,44 @@ export const MintNFTs = ({ onClusterChange }) => {
 
       if (costInLamports > walletBalance) {
         console.error("solPayment: Not enough SOL!");
+        setDisableMint(true);
+        return;
+      }
+    }
+
+    if (guard.freezeSolPayment != null) {
+      walletBalance = await metaplex.connection.getBalance(
+        metaplex.identity().publicKey
+      );
+
+      const costInLamports = guard.freezeSolPayment.amount.basisPoints.toString(10);
+
+      if (costInLamports > walletBalance) {
+        console.error("freezeSolPayment: Not enough SOL!");
+        setDisableMint(true);
+        return;
+      }
+    }
+
+    if (guard.nftGate != null) {
+      const ownedNfts = await metaplex.nfts().findAllByOwner({ owner: metaplex.identity().publicKey });
+      const nftsInCollection = ownedNfts.filter(obj => {
+        return (obj.collection?.address.toBase58() === guard.nftGate.requiredCollection.toBase58()) && (obj.collection?.verified === true);
+      });
+      if (nftsInCollection.length < 1) {
+        console.error("nftGate: The user has no NFT to pay with!");
+        setDisableMint(true);
+        return;
+      }
+    }
+
+    if (guard.nftBurn != null) {
+      const ownedNfts = await metaplex.nfts().findAllByOwner({ owner: metaplex.identity().publicKey });
+      const nftsInCollection = ownedNfts.filter(obj => {
+        return (obj.collection?.address.toBase58() === guard.nftBurn.requiredCollection.toBase58()) && (obj.collection?.verified === true);
+      });
+      if (nftsInCollection.length < 1) {
+        console.error("nftBurn: The user has no NFT to pay with!");
         setDisableMint(true);
         return;
       }
@@ -121,8 +176,6 @@ export const MintNFTs = ({ onClusterChange }) => {
     if (guard.tokenGate != null) {
       const ata = await metaplex.tokens().pdas().associatedTokenAccount({ mint: guard.tokenGate.mint, owner: metaplex.identity().publicKey });
       const balance = await metaplex.connection.getTokenAccountBalance(ata);
-      console.log(ata.toBase58());
-
       if (balance < guard.tokenGate.amount.basisPoints.toNumber()) {
         console.error("tokenGate: Not enough SPL tokens!");
         setDisableMint(true);
@@ -137,6 +190,15 @@ export const MintNFTs = ({ onClusterChange }) => {
         console.error("tokenPayment: Not enough SPL tokens to pay!");
         setDisableMint(true);
         return;
+      }
+      if (guard.freezeTokenPayment != null) {
+        const ata = await metaplex.tokens().pdas().associatedTokenAccount({ mint: guard.freezeTokenPayment.mint, owner: metaplex.identity().publicKey });
+        const balance = await metaplex.connection.getTokenAccountBalance(ata);
+        if (balance < guard.tokenPayment.amount.basisPoints.toNumber()) {
+          console.error("freezeTokenPayment: Not enough SPL tokens to pay!");
+          setDisableMint(true);
+          return;
+        }
       }
     }
 
