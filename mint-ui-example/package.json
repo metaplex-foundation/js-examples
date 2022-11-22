@@ -1,6 +1,6 @@
 {
-  "name": "connect-wallet-nextjs",
-  "version": "0.1.0",
+  "name": "mint-ui-example",
+  "version": "0.0.1",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -9,7 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@metaplex-foundation/js": "0.17.4",
+    "@metaplex-foundation/js": "0.17.6",
     "@solana/wallet-adapter-base": "^0.9.17",
     "@solana/wallet-adapter-react": "^0.15.19",
     "@solana/wallet-adapter-react-ui": "^0.9.17",
