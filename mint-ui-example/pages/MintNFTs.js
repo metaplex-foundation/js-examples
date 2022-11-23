@@ -110,7 +110,7 @@ export const MintNFTs = ({ onClusterChange }) => {
 
     if (guard.mintLimit != null) {
       const mitLimitCounter = metaplex.candyMachines().pdas().mintLimitCounter({
-        id: 1,                                // use value from your config
+        id: guard.mintLimit.id,
         user: metaplex.identity().publicKey,
         candyMachine: candyMachine.address,
         candyGuard: candyMachine.candyGuard.address,
