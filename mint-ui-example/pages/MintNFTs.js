@@ -43,7 +43,7 @@ export const MintNFTs = ({ onClusterChange }) => {
 
     // also reevaluate eligibility after endDate is reached
     const endDateGuard = candyMachine.candyGuard.guards.endDate;
-    if (startDateGuard != null) {
+    if (endDateGuard != null) {
       const candyEndDate = endDateGuard.date.toString(10);
       const refreshTime = solanaTime.toString(10) - candyEndDate;
       if (refreshTime > 0) {
