@@ -18,18 +18,53 @@ export const MintNFTs = ({ onClusterChange }) => {
   let candyMachine;
   let walletBalance;
 
-  const refreshStatus = async () => {
-    candyMachine = await metaplex
-      .candyMachines()
-      .findByAddress({ address: candyMachineAddress });
+  const addListener = async () => {
+    // add a listener to monitor changes to the candy guard
+    metaplex.connection.onAccountChange(candyMachine.candyGuard.address,
+      () => checkEligibility()
+    );
 
-    //wallet connected?
+    // add a listener to monitor changes to the user's wallet
+    metaplex.connection.onAccountChange(metaplex.identity().publicKey,
+      () => checkEligibility()
+    );
+
+    // add a listener to reevaluate if the user is allowed to mint if startDate is reached
+    const slot = await metaplex.connection.getSlot();
+    const solanaTime = await metaplex.connection.getBlockTime(slot);
+    const startDateGuard = candyMachine.candyGuard.guards.startDate;
+    if (startDateGuard != null) {
+      const candyStartDate = startDateGuard.date.toString(10);
+      const refreshTime = candyStartDate - solanaTime.toString(10);
+      if (refreshTime > 0) {
+        setTimeout(() => checkEligibility(), refreshTime * 1000);
+      }
+    }
+
+    // also reevaluate eligibility after endDate is reached
+    const endDateGuard = candyMachine.candyGuard.guards.endDate;
+    if (startDateGuard != null) {
+      const candyEndDate = endDateGuard.date.toString(10);
+      const refreshTime = solanaTime.toString(10) - candyEndDate;
+      if (refreshTime > 0) {
+        setTimeout(() => checkEligibility(), refreshTime * 1000);
+      }
+    }
+  };
+
+  const checkEligibility = async () => {
+    //wallet not connected?
     if (!wallet.connected) {
       setDisableMint(true);
       return;
     }
 
-    //enough items available?
+    // read candy machine state from chain
+    candyMachine = await metaplex
+      .candyMachines()
+      .findByAddress({ address: candyMachineAddress });
+
+    // enough items available?
     if (
       candyMachine.itemsMinted.toString(10) -
       candyMachine.itemsAvailable.toString(10) >
@@ -40,14 +75,13 @@ export const MintNFTs = ({ onClusterChange }) => {
       return;
     }
 
-    // guard checks have to be done for the relevant guard group! Example is for the default group
-
+    // guard checks have to be done for the relevant guard group! Example is for the default groups defined in Part 1 of the CM guide
     const guard = candyMachine.candyGuard.guards;
-    console.log(guard);
 
-    // Calculate current time based on Solana BlockTime which the on chain program is using! 
+    // Calculate current time based on Solana BlockTime which the on chain program is using - startTime and endTime guards will need that
     const slot = await metaplex.connection.getSlot();
     const solanaTime = await metaplex.connection.getBlockTime(slot);
+
     if (guard.startDate != null) {
       const candyStartDate = guard.startDate.date.toString(10);
       if (solanaTime < candyStartDate) {
@@ -83,8 +117,11 @@ export const MintNFTs = ({ onClusterChange }) => {
       });
       //Read Data from chain
       const mintedAmountBuffer = await metaplex.connection.getAccountInfo(mitLimitCounter, "processed");
-      const mintedAmount = mintedAmountBuffer.data.readUintLE(0, 1);
-      if (mintedAmount >= guard.mintLimit.limit) {
+      let mintedAmount;
+      if (mintedAmountBuffer != null) {
+        mintedAmount = mintedAmountBuffer.data.readUintLE(0, 1);
+      }
+      if (mintedAmount != null && mintedAmount >= guard.mintLimit.limit) {
         console.error("mintLimit: mintLimit reached!");
         setDisableMint(true);
         return;
@@ -202,17 +239,29 @@ export const MintNFTs = ({ onClusterChange }) => {
       }
     }
 
-    //good to go!
+    //good to go! Allow them to mint
     setDisableMint(false);
   };
 
+  // show and do nothing if no wallet is connected
   if (!wallet.connected) {
     return null;
-  } else {
-    refreshStatus();
+  }
+
+  // if it's the first time we are processing this function with a connected wallet we read the CM data and add Listeners
+  if (candyMachine === undefined) {
+    (async () => {
+      // read candy machine data to get the candy guards address
+      await checkEligibility();
+      // Add listeners to refresh CM data to reevaluate if minting is allowed after the candy guard updates or startDate is reached
+      addListener();
+    }
+    )();
   }
 
   const onClick = async () => {
+    // Here the actual mint happens. Depending on the guards that you are using you have to run some pre validation beforehand 
+    // Read more: https://docs.metaplex.com/programs/candy-machine/minting#minting-with-pre-validation
     const { nft } = await metaplex.candyMachines().mint({
       candyMachine,
       collectionUpdateAuthority: candyMachine.authorityAddress,
