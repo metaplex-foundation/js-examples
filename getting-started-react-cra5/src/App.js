@@ -1,32 +1,21 @@
 import "./App.css";
-import { Metaplex, walletAdapterIdentity } from "@metaplex-foundation/js";
+import { Metaplex } from "@metaplex-foundation/js";
 import { clusterApiUrl, Connection, PublicKey } from "@solana/web3.js";
-import { useWallet } from '@solana/wallet-adapter-react';
 import { useState } from "react";
 
+const connection = new Connection(clusterApiUrl("devnet"));
+const mx = Metaplex.make(connection);
 
 function App() {
   const [address, setAddress] = useState(
     "3ijFZcJKmp1EnDbbuaumWYvEFbztx9NRupwTXTchK9bP"
   );
+  const [nft, setNft] = useState(null);
 
-  const [candy, setCandy] = useState(null);
+  const fetchNft = async () => {
+    const asset = await mx.nfts().findByMint({ mintAddress: new PublicKey(address) });
 
-  const connection = new Connection(clusterApiUrl("devnet"));
-  const wallet = useWallet();
-  const mx = Metaplex.make(connection);
-  mx.use(walletAdapterIdentity(wallet));
-  const collectionUpdateAuthority = new PublicKey("9eYgKf44KuPocpSpC3QtLqkjtMjHTbUP4KgrC7mYz4GM");
-  
-  const mintNft = async () => {
-    const { nft } = await mx.candyMachines().mint({
-      address,
-      collectionUpdateAuthority,
-    });
-
-
-
-    //setNft(asset);
+    setNft(asset);
   };
 
   return (
@@ -39,9 +28,9 @@ function App() {
             value={address}
             onChange={(event) => setAddress(event.target.value)}
           />
-          <button onClick={mintNft}>Fetch</button>
+          <button onClick={fetchNft}>Fetch</button>
         </div>
-        {/* {nft && (
+        {nft && (
           <div className="nftPreview">
             <h1>{nft.name}</h1>
             <img
@@ -49,7 +38,7 @@ function App() {
               alt="The downloaded illustration of the provided NFT address."
             />
           </div>
-        )} */}
+        )}
       </div>
     </div>
   );
