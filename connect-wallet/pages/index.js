@@ -1,17 +1,17 @@
-import styles from '../styles/Home.module.css'
+import styles from '../styles/Home.module.css';
 import { useMemo, useState, useEffect } from 'react';
 import { ConnectionProvider, WalletProvider } from '@solana/wallet-adapter-react';
 import { WalletAdapterNetwork } from '@solana/wallet-adapter-base';
 import {
-    GlowWalletAdapter,
-    PhantomWalletAdapter,
-    SlopeWalletAdapter,
-    SolflareWalletAdapter,
-    TorusWalletAdapter,
+  GlowWalletAdapter,
+  PhantomWalletAdapter,
+  SlopeWalletAdapter,
+  SolflareWalletAdapter,
+  TorusWalletAdapter,
 } from '@solana/wallet-adapter-wallets';
 import {
-    WalletModalProvider,
-    WalletMultiButton
+  WalletModalProvider,
+  WalletMultiButton
 } from '@solana/wallet-adapter-react-ui';
 import { clusterApiUrl } from '@solana/web3.js';
 import { MetaplexProvider } from './MetaplexProvider';
@@ -25,24 +25,24 @@ export default function Home() {
   const endpoint = useMemo(() => clusterApiUrl(network), [network]);
 
   const wallets = useMemo(
-      () => [
-          new PhantomWalletAdapter(),
-          new GlowWalletAdapter(),
-          new SlopeWalletAdapter(),
-          new SolflareWalletAdapter({ network }),
-          new TorusWalletAdapter(),
-      ],
-      [network]
+    () => [
+      new PhantomWalletAdapter(),
+      new GlowWalletAdapter(),
+      new SlopeWalletAdapter(),
+      new SolflareWalletAdapter({ network }),
+      new TorusWalletAdapter(),
+    ],
+    [network]
   );
 
   const handleChange = (event) => {
-    switch(event.target.value){
+    switch (event.target.value) {
       case "devnet":
         setNetwork(WalletAdapterNetwork.Devnet);
         break;
       case "mainnet":
         setNetwork(WalletAdapterNetwork.Mainnet);
-      break;
+        break;
       case "testnet":
         setNetwork(WalletAdapterNetwork.Testnet);
         break;
@@ -56,18 +56,18 @@ export default function Home() {
   return (
     <div>
       <ConnectionProvider endpoint={endpoint}>
-      <WalletProvider wallets={wallets} autoConnect>
-        <WalletModalProvider>
-        <MetaplexProvider>
-          <div className={styles.App}>
-            <WalletMultiButton />
-            <ShowNFTs onClusterChange={handleChange} />
-          </div>
-        </MetaplexProvider>
-        </WalletModalProvider>
-      </WalletProvider>
-    </ConnectionProvider>
-  </div>
+        <WalletProvider wallets={wallets} autoConnect>
+          <WalletModalProvider>
+            <MetaplexProvider>
+              <div className={styles.App}>
+                <WalletMultiButton />
+                <ShowNFTs onClusterChange={handleChange} />
+              </div>
+            </MetaplexProvider>
+          </WalletModalProvider>
+        </WalletProvider>
+      </ConnectionProvider>
+    </div>
   );
 
 

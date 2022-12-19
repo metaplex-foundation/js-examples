@@ -1,4 +1,4 @@
-import styles from '../styles/Home.module.css'
+import styles from '../styles/Home.module.css';
 import { useMetaplex } from "./useMetaplex";
 import { useState } from "react";
 import { useWallet } from '@solana/wallet-adapter-react';
@@ -12,7 +12,7 @@ export const ShowNFTs = ({ onClusterChange }) => {
   const onClick = async () => {
     const myAssets = await metaplex.nfts().findAllByOwner({ owner: metaplex.identity().publicKey });
 
-    if(!myAssets.length) {
+    if (!myAssets.length) {
       setNft(null);
       return;
     }
@@ -42,7 +42,7 @@ export const ShowNFTs = ({ onClusterChange }) => {
               value={nft ? nft.mint.address.toBase58() : ""}
               readOnly
             />
-          <button onClick={onClick}>Pick Random NFT</button>
+            <button onClick={onClick}>Pick Random NFT</button>
           </div>
           {nft && (
             <div className={styles.nftPreview}>
