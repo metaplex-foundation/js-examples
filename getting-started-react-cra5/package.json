@@ -4,7 +4,6 @@
   "private": true,
   "dependencies": {
     "@metaplex-foundation/js": "0.17.4",
-    "@solana/wallet-adapter-react": "^0.15.23",
     "@solana/web3.js": "^1.63.1",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.1.1",
