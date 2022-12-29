@@ -1,25 +1,27 @@
-import styles from '../styles/Home.module.css';
-import { useMemo, useState, useEffect } from 'react';
-import { ConnectionProvider, WalletProvider } from '@solana/wallet-adapter-react';
-import { WalletAdapterNetwork } from '@solana/wallet-adapter-base';
+import styles from "../styles/Home.module.css";
+import { useMemo, useState, useEffect } from "react";
+import {
+  ConnectionProvider,
+  WalletProvider,
+} from "@solana/wallet-adapter-react";
+import { WalletAdapterNetwork } from "@solana/wallet-adapter-base";
 import {
   GlowWalletAdapter,
   PhantomWalletAdapter,
   SlopeWalletAdapter,
   SolflareWalletAdapter,
   TorusWalletAdapter,
-} from '@solana/wallet-adapter-wallets';
+} from "@solana/wallet-adapter-wallets";
 import {
   WalletModalProvider,
-  WalletMultiButton
-} from '@solana/wallet-adapter-react-ui';
-import { clusterApiUrl } from '@solana/web3.js';
-import { MetaplexProvider } from './MetaplexProvider';
-import { ShowNFTs } from './ShowNFTs';
-import '@solana/wallet-adapter-react-ui/styles.css';
+  WalletMultiButton,
+} from "@solana/wallet-adapter-react-ui";
+import { clusterApiUrl } from "@solana/web3.js";
+import { MetaplexProvider } from "./MetaplexProvider";
+import { MintNFTs } from "./MintNFTs";
+import "@solana/wallet-adapter-react-ui/styles.css";
 
 export default function Home() {
-
   const [network, setNetwork] = useState(WalletAdapterNetwork.Devnet);
 
   const endpoint = useMemo(() => clusterApiUrl(network), [network]);
@@ -52,7 +54,6 @@ export default function Home() {
     }
   };
 
-
   return (
     <div>
       <ConnectionProvider endpoint={endpoint}>
@@ -61,7 +62,7 @@ export default function Home() {
             <MetaplexProvider>
               <div className={styles.App}>
                 <WalletMultiButton />
-                <ShowNFTs onClusterChange={handleChange} />
+                <MintNFTs onClusterChange={handleChange} />
               </div>
             </MetaplexProvider>
           </WalletModalProvider>
@@ -69,7 +70,4 @@ export default function Home() {
       </ConnectionProvider>
     </div>
   );
-
-
 }
-

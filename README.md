@@ -13,3 +13,4 @@ Examples and Starter Kits using the new Metaplex JS SDK.
 ## Reference Implementations
 - [Connect with wallets in the browser](./connect-wallet)
 - [Fetch and paginate NFTs in a given wallet](./paginate-nfts)
+- [Create a simple mint page fo Candy Machine v3](./mint-ui-example)
