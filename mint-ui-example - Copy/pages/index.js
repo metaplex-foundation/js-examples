@@ -19,7 +19,6 @@ import {
 import { clusterApiUrl } from "@solana/web3.js";
 import { MetaplexProvider } from "./MetaplexProvider";
 import { MintNFTs } from "./MintNFTs";
-
 import "@solana/wallet-adapter-react-ui/styles.css";
 import dynamic from "next/dynamic";
 
@@ -42,10 +41,7 @@ export default function Home() {
   const handleChange = (event) => {
     switch (event.target.value) {
       case "devnet":
-        // setNetwork(WalletAdapterNetwork.Devnet);
-        setNetwork(
-          "https://delicate-thrumming-dust.solana-devnet.quiknode.pro/5bf1eea4483f9a6579383536c5d7aad48bad8960/"
-        );
+        setNetwork(WalletAdapterNetwork.Devnet);
         break;
       case "mainnet":
         setNetwork(WalletAdapterNetwork.Mainnet);
@@ -74,7 +70,6 @@ export default function Home() {
               <div className={styles.App}>
                 {/* <WalletMultiButton /> */}
                 <ButtonWrapper />
-         
                 <MintNFTs onClusterChange={handleChange} />
               </div>
             </MetaplexProvider>

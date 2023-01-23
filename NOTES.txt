@@ -1,0 +1,2 @@
+FIX HYDRATION ISSUE
+https://github.com/metaplex-foundation/js-examples/pull/34/commits/5109200a85ffbd96f63284edf1d233e6e5b7574b

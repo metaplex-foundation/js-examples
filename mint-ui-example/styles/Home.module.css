@@ -8,22 +8,25 @@
 }
 
 .container {
-  margin: auto;
+  background: linear-gradient(#73a47a, #8eb5ac);
+  border: solid;
+  /* margin: auto; */
+  margin-top: 10px;
   width: 100%;
   max-width: 500px;
-  padding: 2rem;
+  padding: 1rem;
 }
 
 .title {
-  text-align: left;
-  font-size: 12px;
+  text-align: center;
+  font-size: 35px;
   font-weight: 500;
   color: #0f172a;
 }
 
 .nftForm {
   display: flex;
-
+  border: 1px;
 }
 
 .nftForm input {
@@ -45,19 +48,37 @@
   z-index: 1;
 }
 
-.nftForm button {
-  background: white;
+.button {
+  background: linear-gradient(#feaf57, #e2bc59);
+  font-family: "Nerko One";
+  border-radius: 20px;
+  font-size: 1.5em;
+  width: 50%;
   padding: 1rem;
   margin: 0;
-  border: 1.5px solid #0f172a;
+  border: 1px solid #feaf57;
   color: #0f172a;
-  font-weight: bold;
   cursor: pointer;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
-.nftForm button:hover {
-  border-color: #4f46e5;
-  color: #4f46e5;
+.button:disabled {
+  background: linear-gradient(#feb05781, #e2bb5991);
+  font-family: "Nerko One";
+  border-radius: 100px;
+  font-size: 1.5em;
+  width: 25%;
+  padding: 1rem;
+  margin: 0;
+  border: 1px solid #feaf57;
+  color: #90909b;
+  cursor: not-allowed;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.button:hover:enabled {
+  border-color: #64aeeb;
+  color: #64aeeb;
 }
 
 .nftPreview {
@@ -65,6 +86,20 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.candyData {
+  text-align: center;
+  font-size: 25px;
+  font-weight: 500;
+  color: #0f172a;
+}
+
+.imageResponsive {
+  width: 50%;
+  height: auto;
+  border-radius: 120px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 .nftPreview h1 {
@@ -84,6 +119,66 @@
 }
 
 .dropdown {
-  padding:5px;
-  margin:5px;
+  padding: 5px;
+  margin: 5px;
+}
+
+/*///////////////////*/
+
+.burger-menu {
+  height: 100%;
+  width: 4em;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  cursor: pointer;
+}
+
+.burger-bar {
+  width: 4em;
+  height: 0.5em;
+  background-color: rgb(0, 183, 255);
+  border-radius: 0.5em;
+}
+
+.menu {
+  width: 50%;
+  height: 100vh;
+  background-color: rgb(154, 181, 240);
+  position: absolute;
+  top: 0;
+  z-index: -1;
+}
+
+/* ------------- sliding menu ------------------ */
+.hidden {
+  display: none;
+}
+
+.visible {
+  display: inherit;
+}
+
+/* ----- animations--------- */
+/* clicked */
+.burger-bar.clicked:nth-child(1) {
+  transform: rotate(45deg) translate(0.75em, 1.25em);
+  transition: ease-out 0.5s;
+}
+
+.burger-bar.clicked:nth-child(2) {
+  transform: scale(0.1);
+  transition: ease-out 0.5s;
+}
+
+.burger-bar.clicked:nth-child(3) {
+  transform: rotate(135deg) translate(-0.5em, 1em);
+  transition: ease-out 0.5s;
+}
+
+/* unclicked */
+.burger-bar.unclicked {
+  transform: rotate(0) translate(0);
+  transition: cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.5s;
 }
