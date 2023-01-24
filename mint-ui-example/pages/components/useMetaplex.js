@@ -4,8 +4,9 @@ const DEFAULT_CONTEXT = {
   metaplex: null,
 };
 
-export const MetaplexContext = createContext(DEFAULT_CONTEXT);
+const MetaplexContext = createContext(DEFAULT_CONTEXT);
 
-export default function useMetaplex() {
+export function useMetaplex() {
   return useContext(MetaplexContext);
 }
+export default MetaplexContext
