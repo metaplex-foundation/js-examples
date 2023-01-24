@@ -1,5 +1,5 @@
 import styles from "../../styles/Home.module.css";
-import { useMetaplex } from "./useMetaplex";
+import { useMetaplex } from "./mint-ui-example/pages/components/useMetaplex";
 import { useState } from "react";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { PublicKey } from "@solana/web3.js";
