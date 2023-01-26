@@ -1,11 +1,13 @@
-import { createContext, useContext } from 'react';
+import { createContext, useContext } from "react";
 
 const DEFAULT_CONTEXT = {
   metaplex: null,
 };
 
-export const MetaplexContext = createContext(DEFAULT_CONTEXT);
+const MetaplexContext = createContext(DEFAULT_CONTEXT);
 
-export function useMetaplex() {
+function useMetaplex() {
   return useContext(MetaplexContext);
 }
+export default useMetaplex;
+export { MetaplexContext };
