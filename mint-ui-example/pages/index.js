@@ -17,10 +17,10 @@ import {
   WalletMultiButton,
 } from "@solana/wallet-adapter-react-ui";
 import { clusterApiUrl } from "@solana/web3.js";
-import MetaplexProvider from "./components/MetaplexProvider";
 import MintNFTs from "./components/MintNFTs";
 import "@solana/wallet-adapter-react-ui/styles.css";
 import dynamic from "next/dynamic";
+import MetaplexProvider from "../components/MetaplexProvider";
 
 export default function Home() {
   const [network, setNetwork] = useState(WalletAdapterNetwork.Devnet);

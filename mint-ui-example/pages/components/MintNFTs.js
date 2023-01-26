@@ -1,8 +1,8 @@
 import styles from "../../styles/Home.module.css";
-import useMetaplex from "./useMetaplex";
 import { useState, useEffect } from "react";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { PublicKey } from "@solana/web3.js";
+import useMetaplex from "../../components/useMetaplex";
 
 const MintNFTs = ({ onClusterChange }) => {
   // function MintNFTs ({ onClusterChange }) {
