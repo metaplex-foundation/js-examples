@@ -37,6 +37,8 @@ This example has been generated using the following steps:
 
    If you've used a different template than `react`, make sure that you keep the original `plugins` array and its import statement — e.g. `import vue from "@vitejs/plugin-vue";` and `plugins: [vue()],`.
 
+   ⚠️ An issue with Vite 3.x+ currently causes builds to fail with Metaplex, for your convenience a fix for this has been included in the config that uses the already built `near-api-js`.
+
    <details>
      <summary>Why?</summary>
      The main goal of all these changes is to polyfill node.js features that are not available by default in the browser. The configuration updates look slightly confusing because we have to polyfill differently for development and production. That's because Vite uses rollup under the hood to bundle the application for production but does not bundle your application at all in development.
@@ -61,6 +63,7 @@ This example has been generated using the following steps:
          assert: "assert",
          crypto: "crypto-browserify",
          util: "util",
+         'near-api-js': 'near-api-js/dist/near-api-js.js',
        },
      },
      define: {
