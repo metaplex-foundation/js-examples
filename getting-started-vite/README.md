@@ -77,6 +77,7 @@ This example has been generated using the following steps:
      },
      optimizeDeps: {
        esbuildOptions: {
+         target: "esnext",
          plugins: [NodeGlobalsPolyfillPlugin({ buffer: true })],
        },
      },
