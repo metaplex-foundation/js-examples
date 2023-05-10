@@ -1,6 +1,6 @@
 # Metaplex JS SDK Examples
 
-Examples and Starter Kits using the new Metaplex JS SDK.
+Examples and Starter Kits using the @metaplex-foundation/js SDK.
 
 ## Starter Kits
 - [Getting Started with Metaplex and Next.js](./getting-started-nextjs)
