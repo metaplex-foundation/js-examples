@@ -31,7 +31,7 @@ This example has been generated using the following steps:
 2. **Install React, EsBuild and the Metaplex SDK.**
 
    ```sh
-   npm install react react-dom esbuild @metaplex-foundation/js @solana/web3.js
+   npm install @metaplex-foundation/js @solana/web3.js@1
    ```
 
 3. **Install some polyfills.**

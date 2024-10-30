@@ -16,7 +16,7 @@ The Express.js app contains one route that accepts a mint address and returns th
 2. **Install the Metaplex and Solana SDKs.**
 
    ```sh
-   npm install @metaplex-foundation/js @solana/web3.js
+   npm install @metaplex-foundation/js @solana/web3.js@1
    ```
 
 3. **Create your index file.**

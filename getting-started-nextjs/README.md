@@ -14,7 +14,7 @@ This example has been generated using the following steps:
 2. **Install the Metaplex and the Solana SDKs.**
 
    ```sh
-   yarn add @metaplex-foundation/js @solana/web3.js
+   yarn add @metaplex-foundation/js @solana/web3.js@1
    ```
 
 3. **That's it!** 🎉
